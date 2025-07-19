@@ -110,6 +110,7 @@
 			mainGroup = EAEA33A22DF9BEAF0057E2CB;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				EA4349F22E2C619200D34788 /* XCRemoteSwiftPackageReference "DogTagClient" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = EAEA33AC2DF9BEAF0057E2CB /* Products */;
@@ -344,6 +345,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EA4349F22E2C619200D34788 /* XCRemoteSwiftPackageReference "DogTagClient" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/webauthnai/DogTagClient.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		EA2A10062DFA2B20007831D5 /* DogTagClient */ = {
