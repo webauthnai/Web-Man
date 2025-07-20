@@ -1,7 +1,7 @@
-# 🕷️WebWidow Browser
-### formerly WebMan
+# 🕷 WebWidow Browser
+***formerly WebMan***
 
-## *The World's First AI-Built FIDO2/WebAuthn Native Browser*
+## The World's First AI-Built FIDO2/WebAuthn Native Browser
 
 [![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org)
 [![macOS](https://img.shields.io/badge/macOS-14.6+-blue.svg)](https://www.apple.com/macos/)
@@ -9,8 +9,7 @@
 [![WebAuthn](https://img.shields.io/badge/WebAuthn-Level%202-brightgreen.svg)](https://www.w3.org/TR/webauthn-2/)
 [![AI Built](https://img.shields.io/badge/Built%20by-AI-purple.svg)](https://github.com/webauthnai)
 
-<img width="1673" height="991" alt="image" src="https://github.com/user-attachments/assets/d45b2d96-787b-4b53-885c-81d2962465fb" />
-
+<img width="3212" height="2076" alt="image" src="https://github.com/user-attachments/assets/137beaef-3f45-44a4-9829-8f6026aa8fcf" />
 
 > **🚀 Revolutionary Browser Technology**: WebWidow transforms Apple's WKWebView into a full-blown browser with **native passkey support** - completely designed and built by AI following FIDO Alliance Guidelines!
 
@@ -286,71 +285,6 @@ graph TD
     style G fill:#d35400,stroke:#fff,stroke-width:2px,color:#fff
 ```
 
-### How WebAuthn Works in WebWidow
-
-```mermaid
-graph TD
-    A[Website calls<br/>navigator.credentials] --> B[WebAuthnWebView<br/>WKWebView]
-    B --> C[WKScriptMessageHandler<br/>JavaScript Bridge]
-    
-    C --> D[WebAuthnNativeHandler<br/>Swift Class]
-    D --> E[DogTagClient<br/>Framework]
-    
-    E --> F[Challenge<br/>Validation]
-    E --> G[Origin<br/>Verification]
-    
-    F --> H[ASAuthorizationController<br/>Native iOS Auth]
-    G --> I[DogTagStorage<br/>Credential Lookup]
-    
-    H --> J[User Consent<br/>Touch ID/Face ID]
-    I --> K[Existing<br/>Credentials]
-    
-    J --> L[Private Key<br/>Signing]
-    K --> M[Credential<br/>Selection]
-    
-    L --> N[WebAuthn Response<br/>JSON]
-    M --> N
-    N --> O[JavaScript Promise<br/>Resolution]
-    
-    style C fill:#f39c12,stroke:#fff,stroke-width:3px,color:#fff
-    style D fill:#c0392b,stroke:#fff,stroke-width:3px,color:#fff
-    style E fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff
-    style H fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff
-```
-
-### How FIDO2/CTAP/CBOR Works in WebWidow
-
-```mermaid
-graph TD
-    A[FIDO2 Challenge<br/>from Server] --> B[WebAuthn<br/>Processing]
-    B --> C[CTAP2<br/>Protocol Handler]
-    
-    C --> D[Platform<br/>Authenticator]
-    C --> E[Cross-Platform<br/>Authenticator]
-    
-    D --> F[ASAuthorization<br/>PlatformProvider]
-    E --> G[ASAuthorization<br/>SecurityKeyProvider]
-    
-    F --> H[Secure Enclave<br/>Key Operations]
-    G --> I[USB/NFC<br/>Security Key]
-    
-    H --> J[CBOR<br/>Encoding]
-    I --> K[CTAP2<br/>Commands]
-    
-    J --> L[Attestation<br/>Object]
-    K --> M[External Key<br/>Response]
-    
-    L --> N[WebAuthn<br/>Response]
-    M --> N
-    N --> O[CBOR Decoded<br/>to JSON]
-    O --> P[Server<br/>Verification]
-    
-    style C fill:#f39c12,stroke:#fff,stroke-width:3px,color:#fff
-    style F fill:#c0392b,stroke:#fff,stroke-width:3px,color:#fff
-    style G fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff
-    style H fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff
-```
-
 ## 🎮 Quick Start
 
 ### 📋 Requirements
@@ -488,6 +422,7 @@ Copyright (c) 2025 WebAuthn AI
 
 ## 🔗 Links
 
+- 🕷️ **WebWidow**: [webauthnai.com](https://webauthn.ai)
 - 🐙 **GitHub**: [github.com/webauthnai/Web-Man](https://github.com/webauthnai/Web-Man)
 - 💬 **Test Chat**: [chat.webauthn.ai](https://chat.webauthn.ai)
 - 🐶🪪 **DogTag Framework**: [github.com/webauthnai/DogTagClient](https://github.com/webauthnai/DogTagClient)
