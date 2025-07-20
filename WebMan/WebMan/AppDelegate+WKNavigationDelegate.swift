@@ -65,7 +65,7 @@ extension AppDelegate: WKNavigationDelegate {
         
         let contentType = response.value(forHTTPHeaderField: "Content-Type") ?? ""
         let contentDisposition = response.value(forHTTPHeaderField: "Content-Disposition") ?? ""
-        let urlString = url.absoluteString.lowercased()
+        _ = url.absoluteString.lowercased()
         
         // SECURITY FIX: Only trigger downloads for files explicitly marked for download
         // Images, videos, CSS, JS should NEVER auto-download unless Content-Disposition says so

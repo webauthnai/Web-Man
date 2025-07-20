@@ -86,7 +86,7 @@ class DraggableFavoriteButton: NSButton {
     }
     
     private func startReorderDrag(with event: NSEvent) {
-        guard let stackView = superview as? NSStackView else { return }
+        guard superview is NSStackView else { return }
         
         let pasteboard = NSPasteboard(name: .drag)
         pasteboard.clearContents()

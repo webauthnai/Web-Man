@@ -55,7 +55,7 @@ class FavoritesToolbar: NSView {
     
     override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
         guard let stringValue = sender.draggingPasteboard.string(forType: .string),
-              let stackView = stackView else {
+              let _ = stackView else {
             return draggingEntered(sender)
         }
         
