@@ -4,79 +4,6 @@ import AuthenticationServices
 import DogTagClient
 import UniformTypeIdentifiers
 
-struct SimpleContentView: View {
-    @State private var urlText: String = "https://webauthn.me/"
-    @State private var webView: WKWebView?
-    @State private var downloadProgress: Double = 0.0
-    @State private var isDownloading: Bool = false
-    @State private var downloadStatus: String = ""
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            // Simple toolbar
-            HStack {
-                TextField("Enter URL", text: $urlText)
-                    .textFieldStyle(.roundedBorder)
-                    .onSubmit {
-                        loadURL()
-                    }
-                
-                Button("Go") {
-                    loadURL()
-                }
-                .buttonStyle(.borderedProminent)
-                
-                if isDownloading {
-                    Button("Cancel") {
-                        // Cancel download functionality can be added here
-                    }
-                    .buttonStyle(.bordered)
-                }
-            }
-            .padding()
-            
-            // Download progress bar
-            if isDownloading || !downloadStatus.isEmpty {
-                VStack {
-                    if isDownloading {
-                        ProgressView(value: downloadProgress)
-                            .progressViewStyle(.linear)
-                    }
-                    if !downloadStatus.isEmpty {
-                        Text(downloadStatus)
-                            .font(.caption)
-                            .foregroundColor(downloadStatus.contains("failed") ? .red : .blue)
-                    }
-                }
-                .padding(.horizontal)
-            }
-            
-            // Simple WebView
-            SimpleWebView(
-                urlText: $urlText, 
-                webView: $webView,
-                downloadProgress: $downloadProgress,
-                isDownloading: $isDownloading,
-                downloadStatus: $downloadStatus
-            )
-        }
-    }
-    
-    private func loadURL() {
-        guard let webView = webView else { return }
-        
-        var urlString = urlText.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        if !urlString.hasPrefix("http://") && !urlString.hasPrefix("https://") {
-            urlString = "https://" + urlString
-        }
-        
-        if let url = URL(string: urlString) {
-            webView.load(URLRequest(url: url))
-        }
-    }
-}
-
 struct SimpleWebView: NSViewRepresentable {
     @Binding var urlText: String
     @Binding var webView: WKWebView?
@@ -149,6 +76,46 @@ struct SimpleWebView: NSViewRepresentable {
             if let url = webView.url {
                 DispatchQueue.main.async {
                     self.parent.urlText = url.absoluteString
+                }
+            }
+        }
+        
+        // Handle navigation failures - redirect to Google
+        func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+            print("🚨 SimpleWebView navigation failed: \(error.localizedDescription)")
+            
+            // Don't redirect if user is already on Google
+            guard let currentURL = webView.url?.absoluteString,
+                  !currentURL.contains("google.com") else {
+                return
+            }
+            
+            // Redirect to Google as fallback
+            print("↪️ SimpleWebView redirecting to Google due to navigation failure")
+            if let googleURL = URL(string: "https://google.com") {
+                webView.load(URLRequest(url: googleURL))
+                DispatchQueue.main.async {
+                    self.parent.urlText = "https://google.com"
+                }
+            }
+        }
+        
+        // Handle navigation errors after loading starts
+        func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+            print("🚨 SimpleWebView navigation error: \(error.localizedDescription)")
+            
+            // Don't redirect if user is already on Google
+            guard let currentURL = webView.url?.absoluteString,
+                  !currentURL.contains("google.com") else {
+                return
+            }
+            
+            // Redirect to Google as fallback
+            print("↪️ SimpleWebView redirecting to Google due to navigation error")
+            if let googleURL = URL(string: "https://google.com") {
+                webView.load(URLRequest(url: googleURL))
+                DispatchQueue.main.async {
+                    self.parent.urlText = "https://google.com"
                 }
             }
         }
@@ -382,6 +349,3 @@ extension SimpleWebView.Coordinator: URLSessionDownloadDelegate {
     }
 }
 
-#Preview {
-    SimpleContentView()
-} 
