@@ -78,7 +78,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
        // window.orderFrontRegardless()
         
         // Navigate to test site
-        if let url = URL(string: "https://chat.xcf.ai") {
+        if let url = URL(string: "https://chat.webauthn.ai") {
             webView.load(URLRequest(url: url))
         }
         
@@ -118,7 +118,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
     func setupUnifiedToolbar() {
         // Setup address bar with flexible container for toolbar sizing
         addressBar = NSTextField()
-        addressBar.stringValue = "https://chat.xcf.ai"
+        addressBar.stringValue = "https://chat.webauthn.ai"
         addressBar.font = NSFont.monospacedSystemFont(ofSize: 12, weight: .regular)
         addressBar.bezelStyle = .roundedBezel
         addressBar.focusRingType = .default
@@ -460,9 +460,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
     
     func getDefaultFavorites() -> [(name: String, url: String)] {
         return [
-            ("💬 chat.xcf.ai", "https://chat.xcf.ai"),
+            ("💬 chat.webauthn.ai", "https://chat.webauthn.ai"),
             ("🐙 github/webauthnai", "https://github.com/webauthnai"),
-            ("🤖 xcf.ai", "https://xcf.ai"),
+            ("🤖 webauthn.io", "https://webauthn.io"),
             ("🧠 d1f.ai", "https://d1f.ai"),
             ("❄️ codefreeze.ai", "https://codefreeze.ai"),
             ("🚀 superbox64.com", "https://superbox64.com"),
@@ -714,7 +714,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
     
     @objc func diagnoseCredentials() {
         print("🔍 Manual credential diagnostic triggered")
-        LocalAuthService.shared.diagnoseCredentialAvailability(for: "chat.xcf.ai")
+        LocalAuthService.shared.diagnoseCredentialAvailability(for: "chat.webauthn.ai")
     }
     
     @objc func testDatabase() {
@@ -848,7 +848,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
             var hostingView: NSHostingView<TouchIDSignInSheet>?
             
             let touchIDSheet = TouchIDSignInSheet(
-                siteName: "chat.xcf.ai",
+                siteName: "chat.webauthn.ai",
                 credentialName: "Test Credential",
                 onContinue: {
                     print("✅ Touch ID authentication succeeded! ;)")

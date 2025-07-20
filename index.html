@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebAuthn.AI - The World's First AI-Built FIDO2/WebAuthn Native Browser</title>
+    <meta name="description" content="WebMan: Revolutionary AI-engineered browser with native FIDO2/WebAuthn passkey support, DogTag visual management, and enterprise-grade security.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="logo">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                        <path d="M5 2 L19 2 L19 8 L12 12 L19 16 L19 22 L5 22 L5 16 L12 12 L5 8 Z" fill="currentColor"/>
+                    </svg>
+                </span>
+                <span class="brand-text">WebAuthn.AI</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#technology">Technology</a>
+                <a href="#demo">Demo</a>
+                <a href="#download">Download</a>
+                <a href="https://chat.webauthn.ai" class="cta-link">Fido Chat</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+        <div class="hero-grid">
+            <!-- Left Column: WebMan Browser -->
+            <div class="hero-left">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="badge-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                        </span>
+                        <span>Stop Bad Actors with Hardware-Backed Security</span>
+                    </div>
+                    <h1 class="hero-title">
+                        WebMan Browser
+                        <span class="gradient-text">Passwordless. Forever.</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        No passwords! Hardware-backed keys keep bad guys from logging into your FIDO2/WebAuthn powered websites. 
+                        Built-in DogTag passkey database with Secure Enclave protection stops hackers dead in their tracks.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#download" class="btn btn-primary">
+                            <span>Stop Bad Actors Now</span>
+                            <span class="btn-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                            </span>
+                        </a>
+                        <a href="#demo" class="btn btn-secondary">
+                            <span>See FIDO2 Protection</span>
+                            <span class="btn-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <div class="stat-number">Zero</div>
+                            <div class="stat-label">Passwords</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Secure Enclave</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">Native</div>
+                            <div class="stat-label">FIDO2/WebAuthn</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column: DogTag Authentication -->
+            <div class="hero-right">
+                <div class="hero-visual">
+                    <div class="browser-mockup">
+                        <div class="browser-header">
+                            <div class="browser-controls">
+                                <div class="control-dot red"></div>
+                                <div class="control-dot yellow"></div>
+                                <div class="control-dot green"></div>
+                            </div>
+                            <div class="address-bar">
+                                <span class="lock-icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                        </span>
+                                <span class="url">chat.webauthn.ai</span>
+                                <span class="dogtag-icon">🐶🪪</span>
+                            </div>
+                        </div>
+                        <div class="browser-content">
+                            <div class="auth-prompt">
+                                <div class="auth-icon">👆</div>
+                                <h3>DogTag Authentication</h3>
+                                <p>Passwordless login with Secure Enclave</p>
+                                <div class="auth-animation">
+                                    <div class="ripple"></div>
+                                    <div class="ripple"></div>
+                                    <div class="ripple"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Stop Bad Actors with Hardware Security</h2>
+                <p>No passwords means hackers can't steal what doesn't exist. FIDO2/WebAuthn protection powered by Secure Enclave.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 7V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2"/>
+                            <rect x="3" y="7" width="18" height="10" rx="1"/>
+                            <circle cx="12" cy="12" r="1"/>
+                        </svg>
+                    </div>
+                    <h3>DogTag Visual Passkeys</h3>
+                    <p>Revolutionary visual passkey management system using ASAuthorizationController with native WebAuthn flows, stored securely in Secure Enclave with hardware-backed cryptography.</p>
+                    <ul class="feature-list">
+                        <li>Visual passkey management interface</li>
+                        <li>SwiftUI-based DogTag manager</li>
+                        <li>Touch ID/Face ID integration</li>
+                        <li>Cross-platform authenticators</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            <circle cx="12" cy="16" r="1"/>
+                        </svg>
+                    </div>
+                    <h3>Secure Enclave Protection</h3>
+                    <p>All cryptographic operations happen in the Secure Enclave. Private keys never leave the hardware, providing ultimate protection against credential theft.</p>
+                    <ul class="feature-list">
+                        <li>Hardware-backed crypto keys</li>
+                        <li>Secure Enclave storage</li>
+                        <li>ASAuthorizationController</li>
+                        <li>Zero credential exposure</li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <path d="M8 21l4-7 4 7"/>
+                            <path d="M12 17v4"/>
+                        </svg>
+                    </div>
+                    <h3>Native macOS WebKit</h3>
+                    <p>Built with Swift and WKWebView for native performance. Direct integration with macOS authentication services and system-level FIDO2/WebAuthn support.</p>
+                    <ul class="feature-list">
+                        <li>Native Swift implementation</li>
+                        <li>WKWebView engine</li>
+                        <li>System FIDO2 integration</li>
+                        <li>macOS API optimization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section id="technology" class="technology">
+        <div class="container">
+            <div class="section-header">
+                <h2>Passwordless Architecture</h2>
+                <p>Native macOS WebKit browser with built-in passkey database and Secure Enclave protection</p>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-category">
+                    <h3>DogTag Passkey System</h3>
+                    <div class="tech-items">
+                        <div class="tech-item">
+                            <strong>Visual Passkey Management</strong>
+                            <p>SwiftUI-based DogTag manager for native WebAuthn passkey storage and authentication</p>
+                        </div>
+                        <div class="tech-item">
+                            <strong>DogTagClient & DogTagStorage</strong>
+                            <p>Native Swift frameworks for secure passkey storage and management interface</p>
+                        </div>
+                        <div class="tech-item">
+                            <strong>Zero Password Design</strong>
+                            <p>Complete elimination of passwords through hardware-backed cryptographic keys</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h3>Secure Enclave Integration</h3>
+                    <div class="tech-items">
+                        <div class="tech-item">
+                            <strong>ASAuthorizationController</strong>
+                            <p>Native Apple authentication framework with platform and cross-platform authenticators</p>
+                        </div>
+                        <div class="tech-item">
+                            <strong>Hardware-Backed Cryptography</strong>
+                            <p>All private keys stored and operated within Secure Enclave hardware</p>
+                        </div>
+                        <div class="tech-item">
+                            <strong>Virtual Key Support</strong>
+                            <p>Advanced crypto virtual key management with ES256 algorithm support</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tech-category">
+                    <h3>Native macOS WebKit</h3>
+                    <div class="tech-items">
+                        <div class="tech-item">
+                            <strong>WKWebView Engine</strong>
+                            <p>Apple's WebKit with WebAuthnNativeHandler bridging JavaScript to native FIDO2</p>
+                        </div>
+                        <div class="tech-item">
+                            <strong>FIDO2/WebAuthn Level 2</strong>
+                            <p>Full specification compliance with credential registration and assertion flows</p>
+                        </div>
+                        <div class="tech-item">
+                            <strong>Swift Implementation</strong>
+                            <p>Pure Swift codebase with native macOS API integration and performance optimization</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="architecture-diagram">
+                <h3>System Architecture</h3>
+                <div class="diagram-container">
+                    <div class="arch-layer">
+                        <div class="layer-title">Browser Layer</div>
+                        <div class="arch-components">
+                            <div class="component">WebAuthnWebView</div>
+                            <div class="component">BrowserManager</div>
+                            <div class="component">AppDelegate</div>
+                        </div>
+                    </div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-layer">
+                        <div class="layer-title">WebAuthn Layer</div>
+                        <div class="arch-components">
+                            <div class="component">WebAuthnNativeHandler</div>
+                            <div class="component">DogTagClient</div>
+                            <div class="component">FIDO2 Bridge</div>
+                        </div>
+                    </div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-layer">
+                        <div class="layer-title">Security Layer</div>
+                        <div class="arch-components">
+                            <div class="component">ASAuthorizationController</div>
+                            <div class="component">Secure Enclave</div>
+                            <div class="component">Touch ID/Face ID</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo">
+        <div class="container">
+            <div class="section-header">
+                <h2>Test Passwordless Authentication</h2>
+                <p>Experience DogTag passkey management on FIDO2/WebAuthn websites</p>
+            </div>
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <div class="demo-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <h3>chat.webauthn.ai</h3>
+                    <p>Primary testing site with full FIDO2/WebAuthn implementation. Create your first DogTag passkey and experience passwordless authentication.</p>
+                    <div class="demo-features">
+                        <span class="feature-tag">Full FIDO2 Support</span>
+                        <span class="feature-tag">DogTag Compatible</span>
+                        <span class="feature-tag">Free Testing</span>
+                    </div>
+                    <a href="https://chat.webauthn.ai" class="btn btn-secondary">Create DogTag</a>
+                </div>
+                <div class="demo-card">
+                    <div class="demo-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>webauthn.me</h3>
+                    <p>Official FIDO Alliance testing suite for comprehensive WebAuthn Level 2 validation and credential testing.</p>
+                    <div class="demo-features">
+                        <span class="feature-tag">FIDO Alliance Official</span>
+                        <span class="feature-tag">Spec Compliance</span>
+                    </div>
+                    <a href="https://webauthn.me" class="btn btn-secondary">Test Compliance</a>
+                </div>
+            </div>
+            <div class="demo-flow">
+                <h3>Passwordless Authentication Flow</h3>
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Create DogTag Passkey</h4>
+                            <p>Register with Touch ID/Face ID - stored in Secure Enclave</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Visual Management</h4>
+                            <p>Manage passkeys through SwiftUI DogTag manager interface</p>
+                        </div>
+                    </div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Instant Authentication</h4>
+                            <p>Zero passwords - just biometric verification</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download">
+        <div class="container">
+            <div class="download-content">
+                <div class="download-info">
+                    <h2>Protect Yourself from Bad Actors</h2>
+                    <p>Download WebMan and stop hackers from accessing your accounts. Hardware-backed keys and Secure Enclave protection make password theft impossible.</p>
+                    <div class="requirements">
+                        <h4>System Requirements</h4>
+                        <ul>
+                            <li>macOS 14.6+ with Secure Enclave</li>
+                            <li>Touch ID/Face ID for biometric authentication</li>
+                            <li>Xcode 15+ for building from source</li>
+                            <li>Apple Developer account for code signing</li>
+                        </ul>
+                    </div>
+                    <div class="download-actions">
+                        <a href="https://github.com/webauthnai/Web-Man" class="btn btn-primary large">
+                            <span>Protect Against Bad Actors</span>
+                        </a>
+                        <a href="https://github.com/webauthnai/Web-Man/releases" class="btn btn-secondary">
+                            <span>View Releases</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="download-visual">
+                    <div class="download-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 7V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2"/>
+                                    <rect x="3" y="7" width="18" height="10" rx="1"/>
+                                    <circle cx="12" cy="12" r="1"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-number">First</div>
+                                <div class="stat-label">DogTag Passkey Browser</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                    <circle cx="12" cy="16" r="1"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-number">100%</div>
+                                <div class="stat-label">Secure Enclave</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="3" width="20" height="14" rx="2"/>
+                                    <path d="M8 21l4-7 4 7"/>
+                                    <path d="M12 17v4"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-number">Native</div>
+                                <div class="stat-label">macOS WebKit</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand">
+                        <span class="logo">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                <path d="M5 2 L19 2 L19 8 L12 12 L19 16 L19 22 L5 22 L5 16 L12 12 L5 8 Z" fill="currentColor"/>
+                            </svg>
+                        </span>
+                        <span class="brand-text">WebAuthn.AI</span>
+                    </div>
+                    <p>Prompt Engineering by <a href="https://fido3.ai">FIDO3</a></p>
+                    <p>Native macOS WebKit browser for the passwordless future</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Product</h4>
+                        <a href="#features">Features</a>
+                        <a href="#technology">Technology</a>
+                        <a href="#demo">Demo</a>
+                        <a href="#download">Download</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Resources</h4>
+                        <a href="https://github.com/webauthnai/Web-Man">GitHub</a>
+                        <a href="https://github.com/webauthnai/Web-Man/blob/main/README.md">Documentation</a>
+                        <a href="https://fidoalliance.org/">FIDO Alliance</a>
+                        <a href="https://www.w3.org/TR/webauthn-2/">WebAuthn Spec</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Test Sites</h4>
+                        <a href="https://chat.webauthn.ai">chat.webauthn.ai</a>
+                        <a href="https://webauthn.me">webauthn.me</a>
+                        <a href="https://webauthn.io">webauthn.io</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>AI Ecosystem</h4>
+                        <a href="https://fido3.ai">FIDO3.ai</a>
+                        <a href="https:/webauthn.ai">WebAuthn.ai</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 WebAuthn.AI - Built by AI, Secured by FIDO2, Powered by DogTags</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 

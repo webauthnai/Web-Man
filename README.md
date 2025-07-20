@@ -358,7 +358,7 @@ graph TD
 ### 🚀 Installation
 ```bash
 # Clone the AI-powered browser
-git clone https://github.com/webauthnai/WebMan.git
+git clone https://github.com/webauthnai/Web-Man.git
 cd WebMan/WebMan-webinspector
 
 # Open in Xcode
@@ -446,7 +446,7 @@ WebMan isn't just a browser - it's a **revolution**:
 ### 🐶 Join the DogTag Pack!
 ```bash
 # Fork the repo
-git clone https://github.com/webauthnai/WebMan.git
+git clone https://github.com/webauthnai/Web-Man.git
 
 # Create your feature branch
 git checkout -b feature/amazing-dogtag-feature
@@ -485,7 +485,7 @@ Copyright (c) 2025 WebAuthn AI
 
 ## 🔗 Links
 
-- 🐙 **GitHub**: [github.com/webauthnai/WebMan](https://github.com/webauthnai/WebMan)
+- 🐙 **GitHub**: [github.com/webauthnai/Web-Man](https://github.com/webauthnai/Web-Man)
 - 💬 **Test Chat**: [chat.xcf.ai](https://chat.xcf.ai)
 - 🐶🪪 **DogTag Framework**: [github.com/webauthnai/DogTagClient](https://github.com/webauthnai/DogTagClient)
 
@@ -495,6 +495,6 @@ Copyright (c) 2025 WebAuthn AI
   <h3>🐶🪪 Welcome to the Future of Browsing! 🐶🪪</h3>
   <p><strong>Built by AI • Secured by FIDO2 • Powered by DogTags</strong></p>
   
-  [![Download](https://img.shields.io/badge/Download-WebMan-blue.svg?style=for-the-badge)](https://github.com/webauthnai/WebMan/releases)
+  [![Download](https://img.shields.io/badge/Download-WebMan-blue.svg?style=for-the-badge)](https://github.com/webauthnai/Web-Man/releases)
   [![Try Demo](https://img.shields.io/badge/Try-chat.xcf.ai-green.svg?style=for-the-badge)](https://chat.xcf.ai)
 </div> 
