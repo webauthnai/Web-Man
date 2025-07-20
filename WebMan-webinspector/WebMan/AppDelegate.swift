@@ -101,17 +101,44 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         addressBar.isEditable = true
         addressBar.isSelectable = true
         
-        // Create a container view for proper toolbar integration
+        // Create drag link button with SF Symbol
+        let dragButton = DraggableEmojiButton(title: "", target: self, action: #selector(dragButtonClicked(_:)))
+        
+        // Use SF Symbol for link icon
+        let symbolConfig = NSImage.SymbolConfiguration(pointSize: 14, weight: .medium)
+        if let linkImage = NSImage(systemSymbolName: "link", accessibilityDescription: "Link")?.withSymbolConfiguration(symbolConfig) {
+            linkImage.isTemplate = true
+            dragButton.image = linkImage
+            dragButton.imagePosition = .imageOnly
+        } else {
+            // Fallback to emoji if SF Symbol not available
+            dragButton.title = "🔗"
+        }
+        
+        dragButton.bezelStyle = .shadowlessSquare
+        dragButton.isBordered = false
+        dragButton.toolTip = "Drag to add bookmark"
+        dragButton.addressBar = addressBar
+        
+        // Create a container view with address bar + drag button
         let addressBarContainer = NSView()
         addressBarContainer.addSubview(addressBar)
+        addressBarContainer.addSubview(dragButton)
         
         // Set up constraints for flexible sizing
         addressBar.translatesAutoresizingMaskIntoConstraints = false
+        dragButton.translatesAutoresizingMaskIntoConstraints = false
         addressBarContainer.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            // Pin address bar to container edges
-            addressBar.leadingAnchor.constraint(equalTo: addressBarContainer.leadingAnchor),
+            // Drag button on the LEFT
+            dragButton.leadingAnchor.constraint(equalTo: addressBarContainer.leadingAnchor),
+            dragButton.topAnchor.constraint(equalTo: addressBarContainer.topAnchor),
+            dragButton.bottomAnchor.constraint(equalTo: addressBarContainer.bottomAnchor),
+            dragButton.widthAnchor.constraint(equalToConstant: 24),
+            
+            // Address bar takes most space after drag button
+            addressBar.leadingAnchor.constraint(equalTo: dragButton.trailingAnchor, constant: 4),
             addressBar.trailingAnchor.constraint(equalTo: addressBarContainer.trailingAnchor),
             addressBar.topAnchor.constraint(equalTo: addressBarContainer.topAnchor),
             addressBar.bottomAnchor.constraint(equalTo: addressBarContainer.bottomAnchor),
@@ -362,6 +389,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         
         // Add to favorites
         addFavorite(name: cleanTitle, url: currentURL)
+    }
+    
+    @objc private func dragButtonClicked(_ sender: NSButton) {
+        // Provide feedback that this button is for dragging
+        print("🔗 Drag the link icon to add current URL as bookmark")
     }
     
     private func findFavoritesToolbar() -> FavoritesToolbar? {
@@ -1564,14 +1596,68 @@ class FavoritesToolbar: NSView {
         return insertionIndex
     }
     
-    private func updateInsertionPoint(to index: Int) {
-        insertionIndex = index
-        // Visual feedback could be added here
+    private func updateInsertionPoint(to newIndex: Int) {
+        guard let stackView = stackView else { return }
+        guard newIndex != insertionIndex else { return }
+        
+        // Clear previous insertion point
+        clearInsertionPoint()
+        
+        // Set new insertion index
+        insertionIndex = newIndex
+        
+        // Create visual gap with SMOOTH animation
+        NSAnimationContext.runAnimationGroup { context in
+            context.duration = 0.08
+            context.timingFunction = CAMediaTimingFunction(name: .easeOut)
+            context.allowsImplicitAnimation = true
+            
+            for (index, view) in stackView.arrangedSubviews.enumerated() {
+                guard view is DraggableFavoriteButton else { continue }
+                
+                // Special handling for different insertion positions
+                if insertionIndex == 0 && index == 0 {
+                    // Inserting at the very beginning - add spacing before first item
+                    continue
+                } else if index == insertionIndex - 1 {
+                    // Add extra spacing after the view that comes before insertion point
+                    stackView.setCustomSpacing(originalSpacing + 16, after: view)
+                } else {
+                    // Normal spacing
+                    stackView.setCustomSpacing(originalSpacing, after: view)
+                }
+            }
+            
+            // For insertion at beginning, adjust scroll view content insets
+            if insertionIndex == 0, let scrollView = scrollView {
+                scrollView.contentInsets.left = 16
+            }
+        }
     }
     
     private func clearInsertionPoint() {
+        guard let stackView = stackView else { return }
+        guard insertionIndex != -1 else { return }
+        
+        let wasInsertingAtStart = (insertionIndex == 0)
         insertionIndex = -1
-        // Clear visual feedback here
+        
+        // Restore original spacing with SMOOTH animation
+        NSAnimationContext.runAnimationGroup { context in
+            context.duration = 0.08
+            context.timingFunction = CAMediaTimingFunction(name: .easeOut)
+            context.allowsImplicitAnimation = true
+            
+            for view in stackView.arrangedSubviews {
+                guard view is DraggableFavoriteButton else { continue }
+                stackView.setCustomSpacing(originalSpacing, after: view)
+            }
+            
+            // Reset scroll view content insets if we were inserting at start
+            if wasInsertingAtStart, let scrollView = scrollView {
+                scrollView.contentInsets.left = 0
+            }
+        }
     }
 }
 
@@ -1843,6 +1929,113 @@ extension AppDelegate: FavoritesToolbarDelegate, DraggableFavoriteDelegate, Tras
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             self.window.title = originalTitle
         }
+    }
+}
+
+// MARK: - DraggableEmojiButton for Address Bar
+class DraggableEmojiButton: NSButton {
+    weak var addressBar: NSTextField?
+    
+    override func mouseDown(with event: NSEvent) {
+        guard let addressBar = addressBar,
+              let urlString = addressBar.stringValue as String?,
+              !urlString.isEmpty,
+              (urlString.hasPrefix("http") || urlString.contains(".")) else {
+            super.mouseDown(with: event)
+            return
+        }
+        
+        let startPoint = event.locationInWindow
+        var dragStarted = false
+        
+        window?.trackEvents(matching: [.leftMouseDragged, .leftMouseUp], timeout: NSEvent.foreverDuration, mode: .eventTracking) { dragEvent, stop in
+            guard let dragEvent = dragEvent else { return }
+            
+            let currentPoint = dragEvent.locationInWindow
+            let distance = sqrt(pow(currentPoint.x - startPoint.x, 2) + pow(currentPoint.y - startPoint.y, 2))
+            
+            if dragEvent.type == .leftMouseDragged && distance > 5 && !dragStarted {
+                dragStarted = true
+                self.startDragOperation(with: urlString, event: dragEvent)
+                stop.pointee = true
+            } else if dragEvent.type == .leftMouseUp {
+                stop.pointee = true
+                if !dragStarted {
+                    // This was just a click, perform normal action
+                    self.performClick(nil)
+                }
+            }
+        }
+    }
+    
+    private func startDragOperation(with urlString: String, event: NSEvent) {
+        let pasteboard = NSPasteboard(name: .drag)
+        pasteboard.clearContents()
+        pasteboard.setString("emoji_bookmark_add:\(urlString)", forType: .string)
+        
+        // Create PROPER drag image with SF Symbol and URL
+        let truncatedURL = urlString.count > 18 ? String(urlString.prefix(18)) + "..." : urlString
+        let textSize = truncatedURL.size(withAttributes: [
+            .font: NSFont.systemFont(ofSize: 11, weight: .medium)
+        ])
+        
+        let iconSize: CGFloat = 14
+        let spacing: CGFloat = 6
+        let padding: CGFloat = 8
+        
+        let dragSize = NSSize(
+            width: max(iconSize + spacing + textSize.width + padding * 2, 100),
+            height: max(iconSize + padding, 26)
+        )
+        
+        let dragImage = NSImage(size: dragSize)
+        dragImage.lockFocus()
+        
+        // Draw background only - no border
+        NSColor.systemBlue.withAlphaComponent(0.15).setFill()
+        NSBezierPath(roundedRect: NSRect(origin: .zero, size: dragSize), xRadius: 6, yRadius: 6).fill()
+        
+        // Draw SF Symbol link icon
+        let config = NSImage.SymbolConfiguration(pointSize: iconSize, weight: .medium)
+        if let linkIcon = NSImage(systemSymbolName: "link", accessibilityDescription: "Link")?.withSymbolConfiguration(config) {
+            linkIcon.isTemplate = true
+            let iconRect = NSRect(
+                x: padding,
+                y: (dragSize.height - iconSize) / 2,
+                width: iconSize,
+                height: iconSize
+            )
+            
+            // Draw icon with blue tint
+            NSColor.systemBlue.set()
+            linkIcon.draw(in: iconRect)
+        }
+        
+        // Draw URL text next to icon
+        let textRect = NSRect(
+            x: padding + iconSize + spacing,
+            y: (dragSize.height - textSize.height) / 2,
+            width: textSize.width,
+            height: textSize.height
+        )
+        
+        truncatedURL.draw(in: textRect, withAttributes: [
+            .font: NSFont.systemFont(ofSize: 11, weight: .medium),
+            .foregroundColor: NSColor.systemBlue
+        ])
+        
+        dragImage.unlockFocus()
+        
+        let dragItem = NSDraggingItem(pasteboardWriter: "emoji_bookmark_add:\(urlString)" as NSString)
+        dragItem.setDraggingFrame(NSRect(origin: .zero, size: dragSize), contents: dragImage)
+        
+        beginDraggingSession(with: [dragItem], event: event, source: self)
+    }
+}
+
+extension DraggableEmojiButton: NSDraggingSource {
+    func draggingSession(_ session: NSDraggingSession, sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation {
+        return .copy
     }
 }
 
