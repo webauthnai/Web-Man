@@ -65,36 +65,54 @@ graph TB
     A --> D[WebView Setup]
     A --> E[DogTagWindow]
     
-    B --> F[WebView Content]
+    B --> F[WebAuthnWebView - Custom WKWebView]
     C --> G[Navigation Buttons]
-    C --> H[Address Bar]
+    C --> H[Address Bar + Drag Button]
     C --> I[DogTag Manager Button]
-    C --> J[Page Title Label]
+    C --> J[Draggable Page Title]
+    C --> K[Favorites Toolbar]
     
-    D --> K[WebAuthnBrowserSetup.createWebViewConfiguration]
-    D --> L[Standard WKWebView]
+    D --> L[WebAuthnBrowserSetup.createWebViewConfiguration]
+    L --> M[DogTagClient v1.0.8]
+    L --> N[DogTagStorage v1.0.6]
     
-    K --> M[DogTagClient Framework]
-    M --> N[WebAuthn Bridge Config]
+    F --> O[WebAuthnNativeHandler]
+    F --> P[WKWebView Engine]
+    F --> Q[JavaScript Bridge]
     
-    L --> O[WebAuthnNativeHandler]
-    L --> P[WKWebView Engine]
+    O --> R[ASAuthorizationController]
+    O --> S[FIDO2 Implementation]
+    O --> T[Challenge Processing]
     
-    O --> Q[ASAuthorizationController]
-    O --> R[JavaScript Message Bridge]
+    R --> U[Platform Authenticator]
+    R --> V[Cross-Platform Authenticator]
     
-    Q --> S[Touch ID/Face ID]
-    Q --> T[Security Keys]
+    U --> W[Touch ID/Face ID]
+    U --> X[Secure Enclave]
     
-    E --> U[DogTagManager SwiftUI View]
-    E --> V[NSHostingView]
+    V --> Y[USB/NFC Security Keys]
+    V --> Z[Bluetooth Keys]
     
-    U --> W[DogTagClient UI Components]
+    E --> AA[DogTagManager SwiftUI]
+    E --> BB[NSHostingView]
+    
+    AA --> CC[DogTagClient UI]
+    AA --> DD[Passkey Management]
+    
+    M --> EE[WebAuthn Configuration]
+    N --> FF[Passkey Storage]
+    
+    FF --> GG[Keychain Services]
+    FF --> HH[Secure Enclave Storage]
+    
+    K --> II[Drag & Drop Bookmarks]
+    K --> JJ[TrashCanView]
     
     style A fill:#ff6b6b,stroke:#333,stroke-width:3px
     style M fill:#4ecdc4,stroke:#333,stroke-width:2px
+    style N fill:#45b7d1,stroke:#333,stroke-width:2px
     style O fill:#f39c12,stroke:#333,stroke-width:2px
-    style E fill:#45b7d1,stroke:#333,stroke-width:2px
+    style E fill:#9b59b6,stroke:#333,stroke-width:2px
 ```
 
 ## 🎮 Quick Start
