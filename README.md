@@ -7,7 +7,7 @@
 [![WebAuthn](https://img.shields.io/badge/WebAuthn-Level%202-brightgreen.svg)](https://www.w3.org/TR/webauthn-2/)
 [![AI Built](https://img.shields.io/badge/Built%20by-AI-purple.svg)](https://github.com/webauthnai)
 
-<img width="1272" height="959" alt="image" src="https://github.com/user-attachments/assets/aa07f2c8-9772-4d76-84c2-4ff86f023681" />
+<img width="1235" height="940" alt="image" src="https://github.com/user-attachments/assets/da2bec06-0664-4b43-b14e-fb2a60a76924" />
 
 > **🚀 Revolutionary Browser Technology**: WebMan transforms Apple's WKWebView into a full-blown browser with **native passkey support** - completely designed and built by AI following FIDO Alliance Guidelines!
 
