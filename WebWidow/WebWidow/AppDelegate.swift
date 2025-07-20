@@ -636,16 +636,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         credentialsMenuItem.submenu = credentialsMenu
         mainMenu.addItem(credentialsMenuItem)
         
-        // Debug Menu
-        let debugMenuItem = NSMenuItem()
-        let debugMenu = NSMenu(title: "Debug")
-        
-        debugMenu.addItem(NSMenuItem(title: "Test Database Functionality", action: #selector(testDatabase), keyEquivalent: ""))
-        debugMenu.addItem(NSMenuItem(title: "Clean Database Files", action: #selector(cleanDatabase), keyEquivalent: ""))
-        
-        debugMenuItem.submenu = debugMenu
-        mainMenu.addItem(debugMenuItem)
-        
         NSApp.mainMenu = mainMenu
     }
     
