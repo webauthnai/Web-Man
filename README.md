@@ -219,15 +219,14 @@ in the Software without restriction...
 
 ## 🔗 Links
 
-- 🌐 **Website**: [webman.browser](https://webman.browser)
 - 🐙 **GitHub**: [github.com/webauthnai/WebMan](https://github.com/webauthnai/WebMan)
 - 💬 **Test Chat**: [chat.xcf.ai](https://chat.xcf.ai)
-- 🏷️ **DogTag Framework**: [github.com/webauthnai/DogTagClient](https://github.com/webauthnai/DogTagClient)
+- 🐶🪪 **DogTag Framework**: [github.com/webauthnai/DogTagClient](https://github.com/webauthnai/DogTagClient)
 
 ---
 
 <div align="center">
-  <h3>🐕🏷️ Welcome to the Future of Browsing! 🏷️🐕</h3>
+  <h3>🐶🪪 Welcome to the Future of Browsing! 🐶🪪</h3>
   <p><strong>Built by AI • Secured by FIDO2 • Powered by DogTags</strong></p>
   
   [![Download](https://img.shields.io/badge/Download-WebMan-blue.svg?style=for-the-badge)](https://github.com/webauthnai/WebMan/releases)
