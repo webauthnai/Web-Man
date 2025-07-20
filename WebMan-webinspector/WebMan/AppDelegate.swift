@@ -56,8 +56,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         // Set up unified toolbar and content
         setupUnifiedToolbar()
         
-        // CREATE FAVORITES TOOLBAR AND MAIN CONTENT
-        setupMainContentWithFavorites()
+        // Set WebView as main content
+        window.contentView = webView
+        
+        // Add favorites bar as titlebar accessory (Safari style)
+        setupFavoritesAccessory()
         
         window.makeKeyAndOrderFront(nil)
         window.orderFrontRegardless()
@@ -145,6 +148,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         window.toolbar = toolbar
     }
     
+    private func setupFavoritesAccessory() {
+        // Create the favorites toolbar view
+        let favoritesToolbar = createFavoritesToolbar()
+        
+        // Create titlebar accessory view controller (Safari style)
+        let accessoryVC = NSTitlebarAccessoryViewController()
+        accessoryVC.view = favoritesToolbar
+        accessoryVC.layoutAttribute = .bottom
+        
+        // Add to window titlebar
+        window.addTitlebarAccessoryViewController(accessoryVC)
+    }
+    
     private func setupMainContentWithFavorites() {
         // Create main container
         let containerView = NSView()
@@ -187,8 +203,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         toolbar.delegate = self
         toolbar.wantsLayer = true
         
-        // Dynamic background that adapts to light/dark mode
-        toolbar.layer?.backgroundColor = NSColor.tertiarySystemFill.cgColor
+        // Match the toolbar/titlebar background (no background - let system handle it)
+        toolbar.layer?.backgroundColor = NSColor.clear.cgColor
+        toolbar.layer?.borderWidth = 0
         
         let scrollView = NSScrollView()
         scrollView.hasHorizontalScroller = false
@@ -242,21 +259,32 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         // Add trash can for removing bookmarks
         let trashCan = createTrashCan()
         
-        // Create container for favorites and trash
+        // Add link icon for adding favorites
+        let addLinkButton = createAddLinkButton()
+        
+        // Create container for favorites, add link, and trash
         let favoritesContainer = NSView()
         favoritesContainer.addSubview(scrollView)
+        favoritesContainer.addSubview(addLinkButton)
         favoritesContainer.addSubview(trashCan)
         
-        // Set up constraints for favorites and trash layout
+        // Set up constraints for favorites, add link, and trash layout
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        addLinkButton.translatesAutoresizingMaskIntoConstraints = false
         trashCan.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             // ScrollView takes most of the space
             scrollView.topAnchor.constraint(equalTo: favoritesContainer.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: favoritesContainer.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: trashCan.leadingAnchor, constant: -8),
+            scrollView.trailingAnchor.constraint(equalTo: addLinkButton.leadingAnchor, constant: -8),
             scrollView.bottomAnchor.constraint(equalTo: favoritesContainer.bottomAnchor),
+            
+            // Add link button in the middle
+            addLinkButton.topAnchor.constraint(equalTo: favoritesContainer.topAnchor),
+            addLinkButton.trailingAnchor.constraint(equalTo: trashCan.leadingAnchor, constant: -4),
+            addLinkButton.bottomAnchor.constraint(equalTo: favoritesContainer.bottomAnchor),
+            addLinkButton.widthAnchor.constraint(equalToConstant: 28),
             
             // Trash can on the right
             trashCan.topAnchor.constraint(equalTo: favoritesContainer.topAnchor),
@@ -286,7 +314,81 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
             favoritesContainer.bottomAnchor.constraint(equalTo: toolbar.bottomAnchor, constant: -4)
         ])
         
+        // Set fixed height for titlebar accessory
+        toolbar.translatesAutoresizingMaskIntoConstraints = false
+        toolbar.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        
         return toolbar
+    }
+    
+    private func createAddLinkButton() -> NSButton {
+        let button = NSButton()
+        button.title = ""
+        button.bezelStyle = .shadowlessSquare
+        button.isBordered = false
+        button.wantsLayer = true
+        button.layer?.backgroundColor = NSColor.clear.cgColor
+        
+        // Use link symbol for adding favorites
+        if #available(macOS 11.0, *) {
+            button.image = NSImage(systemSymbolName: "plus.circle", accessibilityDescription: "Add Favorite")
+        } else {
+            button.title = "+"
+        }
+        
+        button.imageScaling = .scaleProportionallyUpOrDown
+        button.contentTintColor = NSColor.controlAccentColor
+        button.toolTip = "Add current page to favorites"
+        button.target = self
+        button.action = #selector(addCurrentPageToFavorites(_:))
+        
+        return button
+    }
+    
+    @objc private func addCurrentPageToFavorites(_ sender: NSButton) {
+        // Get current page URL and title from webView
+        guard let currentURL = webView.url?.absoluteString,
+              !currentURL.isEmpty,
+              currentURL != "about:blank" else {
+            showTemporaryMessage("❌ No valid page to add")
+            return
+        }
+        
+        // Get page title (or use URL if no title)
+        let pageTitle = webView.title?.isEmpty == false ? webView.title! : currentURL
+        
+        // Clean up the title for display
+        let cleanTitle = pageTitle.count > 30 ? String(pageTitle.prefix(30)) + "..." : pageTitle
+        
+        // Add to favorites
+        addFavorite(name: cleanTitle, url: currentURL)
+    }
+    
+    private func findFavoritesToolbar() -> FavoritesToolbar? {
+        // Look for favorites toolbar in titlebar accessory views
+        for accessory in window.titlebarAccessoryViewControllers {
+            if let toolbar = accessory.view as? FavoritesToolbar {
+                return toolbar
+            }
+            
+            // Also check subviews in case it's nested
+            func findInSubviews(_ view: NSView) -> FavoritesToolbar? {
+                if let toolbar = view as? FavoritesToolbar {
+                    return toolbar
+                }
+                for subview in view.subviews {
+                    if let found = findInSubviews(subview) {
+                        return found
+                    }
+                }
+                return nil
+            }
+            
+            if let found = findInSubviews(accessory.view) {
+                return found
+            }
+        }
+        return nil
     }
     
     private func createFavoriteButton(name: String, url: String) -> DraggableFavoriteButton {
@@ -1618,8 +1720,8 @@ extension AppDelegate: FavoritesToolbarDelegate, DraggableFavoriteDelegate, Tras
     func addFavorite(name: String, url: String) {
         print("🌟 Adding new favorite: \(name) -> \(url)")
         
-        guard let mainContainer = window.contentView,
-              let toolbar = mainContainer.subviews.first(where: { $0 is FavoritesToolbar }) as? FavoritesToolbar,
+        // Get reference to the toolbar from titlebar accessory
+        guard let toolbar = findFavoritesToolbar(),
               let stackView = toolbar.stackView else {
             print("❌ Could not find favorites toolbar")
             return
@@ -1642,8 +1744,8 @@ extension AppDelegate: FavoritesToolbarDelegate, DraggableFavoriteDelegate, Tras
     func addFavoriteAtIndex(name: String, url: String, index: Int) {
         print("🌟 Adding new favorite at index \(index): \(name) -> \(url)")
         
-        guard let mainContainer = window.contentView,
-              let toolbar = mainContainer.subviews.first(where: { $0 is FavoritesToolbar }) as? FavoritesToolbar,
+        // Get reference to the toolbar from titlebar accessory
+        guard let toolbar = findFavoritesToolbar(),
               let stackView = toolbar.stackView else {
             print("❌ Could not find favorites toolbar")
             return
@@ -1671,8 +1773,8 @@ extension AppDelegate: FavoritesToolbarDelegate, DraggableFavoriteDelegate, Tras
     func reorderFavorite(from sourceIndex: Int, to destinationIndex: Int) {
         print("🔄 Reordering favorite from \(sourceIndex) to \(destinationIndex)")
         
-        guard let mainContainer = window.contentView,
-              let toolbar = mainContainer.subviews.first(where: { $0 is FavoritesToolbar }) as? FavoritesToolbar,
+        // Get reference to the toolbar from titlebar accessory
+        guard let toolbar = findFavoritesToolbar(),
               let stackView = toolbar.stackView else {
             print("❌ Could not find favorites toolbar for reordering")
             return
@@ -1705,8 +1807,8 @@ extension AppDelegate: FavoritesToolbarDelegate, DraggableFavoriteDelegate, Tras
     func deleteFavorite(at index: Int) {
         print("🗑️ Deleting favorite at index \(index)")
         
-        guard let mainContainer = window.contentView,
-              let toolbar = mainContainer.subviews.first(where: { $0 is FavoritesToolbar }) as? FavoritesToolbar,
+        // Get reference to the toolbar from titlebar accessory
+        guard let toolbar = findFavoritesToolbar(),
               let stackView = toolbar.stackView else {
             print("❌ Could not find favorites toolbar for deletion")
             return
