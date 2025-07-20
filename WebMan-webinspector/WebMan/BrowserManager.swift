@@ -5,8 +5,8 @@ import DogTagClient
 import UniformTypeIdentifiers
 
 class BrowserManager: NSObject, ObservableObject {
-    @Published var currentURL: String = "https://www.apple.com"
-    @Published var addressBarText: String = "https://www.apple.com"
+    @Published var currentURL: String = ""
+    @Published var addressBarText: String = ""
     @Published var isLoading: Bool = false
     @Published var canGoBack: Bool = false
     @Published var canGoForward: Bool = false

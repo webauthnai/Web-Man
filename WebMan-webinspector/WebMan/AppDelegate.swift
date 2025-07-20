@@ -42,6 +42,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
             window.perform(Selector(("setTitlebarSeparatorStyle:")), with: 0) // None
         }
         
+        // Try to change separator color to clear/transparent
+        if window.responds(to: Selector(("setTitlebarSeparatorColor:"))) {
+            window.perform(Selector(("setTitlebarSeparatorColor:")), with: NSColor.clear)
+        }
+        
         // Create WebView configuration with native WebAuthn bridge
         let config = WebAuthnBrowserSetup.createWebViewConfiguration()
         
@@ -201,6 +206,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         // Remove the separator line
         toolbar.showsBaselineSeparator = false
         
+        // Try to change toolbar separator color
+        if toolbar.responds(to: Selector(("setSeparatorColor:"))) {
+            toolbar.perform(Selector(("setSeparatorColor:")), with: NSColor.clear)
+        }
+        
         window.toolbar = toolbar
     }
     
@@ -213,15 +223,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         accessoryVC.view = favoritesToolbar
         accessoryVC.layoutAttribute = .bottom
         
-        // Remove the separator line completely
-        if accessoryVC.responds(to: Selector(("setHidesWhenSingleTab:"))) {
-            accessoryVC.perform(Selector(("setHidesWhenSingleTab:")), with: false)
+        // CRITICAL: Hide the automatic separator line like Safari
+        if accessoryVC.responds(to: Selector(("setAutomaticSeparatorHidden:"))) {
+            accessoryVC.perform(Selector(("setAutomaticSeparatorHidden:")), with: true)
         }
-        
-        // Also try to remove any border from the view itself
-        favoritesToolbar.wantsLayer = true
-        favoritesToolbar.layer?.borderWidth = 0
-        favoritesToolbar.layer?.borderColor = NSColor.clear.cgColor
         
         // Add to window titlebar
         window.addTitlebarAccessoryViewController(accessoryVC)
@@ -405,6 +410,62 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         print("🔗 Drag the link icon to add current URL as bookmark")
     }
     
+    // MARK: - UserDefaults for Favorites
+    
+    private func saveFavoritesToUserDefaults() {
+        guard let toolbar = findFavoritesToolbar(),
+              let stackView = toolbar.stackView else { return }
+        
+        var favoritesData: [[String: String]] = []
+        
+        for view in stackView.arrangedSubviews {
+            if let button = view as? DraggableFavoriteButton,
+               let url = button.identifier?.rawValue {
+                favoritesData.append([
+                    "name": button.title,
+                    "url": url
+                ])
+            }
+        }
+        
+        UserDefaults.standard.set(favoritesData, forKey: "WebManFavorites")
+        print("💾 Saved \(favoritesData.count) favorites to UserDefaults")
+    }
+    
+    private func loadFavoritesFromUserDefaults() -> [(name: String, url: String)] {
+        guard let favoritesData = UserDefaults.standard.array(forKey: "WebManFavorites") as? [[String: String]] else {
+            print("📂 No saved favorites found, using defaults")
+            return getDefaultFavorites()
+        }
+        
+        var favorites: [(name: String, url: String)] = []
+        for favoriteDict in favoritesData {
+            if let name = favoriteDict["name"],
+               let url = favoriteDict["url"] {
+                favorites.append((name: name, url: url))
+            }
+        }
+        
+        print("📂 Loaded \(favorites.count) favorites from UserDefaults")
+        return favorites.isEmpty ? getDefaultFavorites() : favorites
+    }
+    
+    private func getDefaultFavorites() -> [(name: String, url: String)] {
+        return [
+            ("💬 chat.xcf.ai", "https://chat.xcf.ai"),
+            ("🐙 github/webauthnai", "https://github.com/webauthnai"),
+            ("🤖 xcf.ai", "https://xcf.ai"),
+            ("🧠 d1f.ai", "https://d1f.ai"),
+            ("❄️ codefreeze.ai", "https://codefreeze.ai"),
+            ("🚀 superbox64.com", "https://superbox64.com"),
+            ("📱 apps.apple.com", "https://apps.apple.com/ba/developer/todd-bruss/id1239131660"),
+            ("🎮 github/SuperBox64", "https://github.com/SuperBox64?tab=repositories"),
+            ("❄️ github/CodeFreezeAI", "https://github.com/orgs/CodeFreezeAI/repositories"),
+            ("⭐️ WebAuthn.me", "https://webauthn.me"),
+            ("🔐 WebAuthn.io", "https://webauthn.io")
+        ]
+    }
+    
     private func findFavoritesToolbar() -> FavoritesToolbar? {
         // Look for favorites toolbar in titlebar accessory views
         for accessory in window.titlebarAccessoryViewControllers {
@@ -573,8 +634,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         let debugMenuItem = NSMenuItem()
         let debugMenu = NSMenu(title: "Debug")
         
-        debugMenu.addItem(NSMenuItem(title: "Open Developer Tools", action: #selector(openDeveloperTools), keyEquivalent: "i"))
-        debugMenu.addItem(NSMenuItem.separator())
         debugMenu.addItem(NSMenuItem(title: "Test Database Functionality", action: #selector(testDatabase), keyEquivalent: ""))
         debugMenu.addItem(NSMenuItem(title: "Clean Database Files", action: #selector(cleanDatabase), keyEquivalent: ""))
 
@@ -1948,6 +2007,9 @@ extension AppDelegate: FavoritesToolbarDelegate, DraggableFavoriteDelegate, Tras
             newButton.alphaValue = 1
         }
         
+        // Save favorites to UserDefaults
+        saveFavoritesToUserDefaults()
+        
         showTemporaryMessage("⭐️ Added to favorites!")
     }
     
@@ -1981,6 +2043,9 @@ extension AppDelegate: FavoritesToolbarDelegate, DraggableFavoriteDelegate, Tras
             
             sourceView.alphaValue = 1.0
         }
+        
+        // Save favorites to UserDefaults after reordering
+        saveFavoritesToUserDefaults()
         
         showTemporaryMessage("↔️ Favorites reordered!")
     }
