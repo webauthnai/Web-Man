@@ -11,7 +11,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
     var webView: WKWebView!
     var dogTagWindow: NSWindow?
     var addressBar: NSTextField!
-    var titleLabel: NSTextField!
+    var titleLabel: DraggableTitleLabel!
     
     // Download management properties
     private var downloadTask: URLSessionDownloadTask?
@@ -35,7 +35,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         
         // Configure window appearance  
         window.titleVisibility = .hidden
-        window.titlebarAppearsTransparent = false
+        window.titlebarAppearsTransparent = true
+        
+        // Remove any separator lines
+        if window.responds(to: Selector(("setTitlebarSeparatorStyle:"))) {
+            window.perform(Selector(("setTitlebarSeparatorStyle:")), with: 0) // None
+        }
         
         // Create WebView configuration with native WebAuthn bridge
         let config = WebAuthnBrowserSetup.createWebViewConfiguration()
@@ -47,6 +52,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         // CRITICAL: Use custom UI delegate that handles popups properly
         webView.uiDelegate = self
         webView.navigationDelegate = self
+        
+        // OBSERVE TITLE CHANGES for dynamic title updates
+        webView.addObserver(self, forKeyPath: "title", options: [.new], context: nil)
         
         // Enable web inspector for debugging
         #if DEBUG
@@ -62,8 +70,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         // Add favorites bar as titlebar accessory (Safari style)
         setupFavoritesAccessory()
         
-        window.makeKeyAndOrderFront(nil)
-        window.orderFrontRegardless()
+       // window.makeKeyAndOrderFront(nil)
+       // window.orderFrontRegardless()
         
         // Navigate to test site
         if let url = URL(string: "https://chat.xcf.ai") {
@@ -88,6 +96,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         return true
     }
     
+    func applicationWillTerminate(_ aNotification: Notification) {
+        // Clean up observers
+        webView?.removeObserver(self, forKeyPath: "title")
+    }
+    
+    // MARK: - KVO Observer for Title Changes
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "title", let webView = object as? WKWebView {
+            DispatchQueue.main.async {
+                let title = webView.title ?? ""
+                self.updateTitle(with: title)
+            }
+        }
+    }
+    
     private func setupUnifiedToolbar() {
         // Setup address bar with flexible container for toolbar sizing
         addressBar = NSTextField()
@@ -97,7 +120,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         addressBar.focusRingType = .default
         addressBar.target = self
         addressBar.action = #selector(addressBarAction(_:))
-        addressBar.placeholderString = "Enter URL..."
+        addressBar.placeholderString = "Enter website or search words"
         addressBar.isEditable = true
         addressBar.isSelectable = true
         
@@ -154,8 +177,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         // Store the container as our address bar reference for the toolbar
         self.addressBarContainer = addressBarContainer
         
-        // Create title label
-        titleLabel = NSTextField(labelWithString: "WebMan - Native WebAuthn Browser")
+        // Create DRAGGABLE title label
+        titleLabel = DraggableTitleLabel(labelWithString: "WebMan - Native WebAuthn Browser")
         titleLabel.font = NSFont.systemFont(ofSize: 12, weight: .medium)
         titleLabel.textColor = NSColor.secondaryLabelColor
         titleLabel.alignment = .right
@@ -164,6 +187,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         titleLabel.isBordered = false
         titleLabel.backgroundColor = NSColor.clear
         
+        // Set up dragging for title
+        (titleLabel as! DraggableTitleLabel).addressBar = addressBar
+        
         // Create and configure toolbar
         let toolbar = NSToolbar(identifier: "UnifiedToolbar")
         toolbar.delegate = self
@@ -171,6 +197,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         toolbar.autosavesConfiguration = false
         toolbar.displayMode = .iconOnly
         toolbar.sizeMode = .regular
+        
+        // Remove the separator line
+        toolbar.showsBaselineSeparator = false
         
         window.toolbar = toolbar
     }
@@ -183,6 +212,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         let accessoryVC = NSTitlebarAccessoryViewController()
         accessoryVC.view = favoritesToolbar
         accessoryVC.layoutAttribute = .bottom
+        
+        // Remove the separator line completely
+        if accessoryVC.responds(to: Selector(("setHidesWhenSingleTab:"))) {
+            accessoryVC.perform(Selector(("setHidesWhenSingleTab:")), with: false)
+        }
+        
+        // Also try to remove any border from the view itself
+        favoritesToolbar.wantsLayer = true
+        favoritesToolbar.layer?.borderWidth = 0
+        favoritesToolbar.layer?.borderColor = NSColor.clear.cgColor
         
         // Add to window titlebar
         window.addTitlebarAccessoryViewController(accessoryVC)
@@ -233,6 +272,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         // Match the toolbar/titlebar background (no background - let system handle it)
         toolbar.layer?.backgroundColor = NSColor.clear.cgColor
         toolbar.layer?.borderWidth = 0
+        toolbar.layer?.borderColor = NSColor.clear.cgColor
         
         let scrollView = NSScrollView()
         scrollView.hasHorizontalScroller = false
@@ -287,37 +327,30 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         let trashCan = createTrashCan()
         
         // Add link icon for adding favorites
-        let addLinkButton = createAddLinkButton()
         
         // Create container for favorites, add link, and trash
         let favoritesContainer = NSView()
         favoritesContainer.addSubview(scrollView)
-        favoritesContainer.addSubview(addLinkButton)
         favoritesContainer.addSubview(trashCan)
         
         // Set up constraints for favorites, add link, and trash layout
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        addLinkButton.translatesAutoresizingMaskIntoConstraints = false
         trashCan.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             // ScrollView takes most of the space
             scrollView.topAnchor.constraint(equalTo: favoritesContainer.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: favoritesContainer.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: addLinkButton.leadingAnchor, constant: -8),
+            scrollView.trailingAnchor.constraint(equalTo: trashCan.leadingAnchor, constant: -10),
             scrollView.bottomAnchor.constraint(equalTo: favoritesContainer.bottomAnchor),
             
-            // Add link button in the middle
-            addLinkButton.topAnchor.constraint(equalTo: favoritesContainer.topAnchor),
-            addLinkButton.trailingAnchor.constraint(equalTo: trashCan.leadingAnchor, constant: -4),
-            addLinkButton.bottomAnchor.constraint(equalTo: favoritesContainer.bottomAnchor),
-            addLinkButton.widthAnchor.constraint(equalToConstant: 28),
+          
             
             // Trash can on the right
             trashCan.topAnchor.constraint(equalTo: favoritesContainer.topAnchor),
             trashCan.trailingAnchor.constraint(equalTo: favoritesContainer.trailingAnchor),
             trashCan.bottomAnchor.constraint(equalTo: favoritesContainer.bottomAnchor),
-            trashCan.widthAnchor.constraint(equalToConstant: 30)
+            trashCan.widthAnchor.constraint(equalToConstant: 10)
         ])
         
         toolbar.addSubview(favoritesContainer)
@@ -347,31 +380,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         
         return toolbar
     }
-    
-    private func createAddLinkButton() -> NSButton {
-        let button = NSButton()
-        button.title = ""
-        button.bezelStyle = .shadowlessSquare
-        button.isBordered = false
-        button.wantsLayer = true
-        button.layer?.backgroundColor = NSColor.clear.cgColor
-        
-        // Use link symbol for adding favorites
-        if #available(macOS 11.0, *) {
-            button.image = NSImage(systemSymbolName: "plus.circle", accessibilityDescription: "Add Favorite")
-        } else {
-            button.title = "+"
-        }
-        
-        button.imageScaling = .scaleProportionallyUpOrDown
-        button.contentTintColor = NSColor.controlAccentColor
-        button.toolTip = "Add current page to favorites"
-        button.target = self
-        button.action = #selector(addCurrentPageToFavorites(_:))
-        
-        return button
-    }
-    
+   
     @objc private func addCurrentPageToFavorites(_ sender: NSButton) {
         // Get current page URL and title from webView
         guard let currentURL = webView.url?.absoluteString,
@@ -471,9 +480,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
     private func navigateToURL(_ urlString: String) {
         var finalURL = urlString
         
-        // Add https:// if no protocol is specified
-        if !urlString.hasPrefix("http://") && !urlString.hasPrefix("https://") {
-            finalURL = "https://" + urlString
+        // Check if this looks like a URL or a search query
+        let trimmed = urlString.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // If it's a search query (contains spaces, no dots, or doesn't look like a domain)
+        let isSearchQuery = trimmed.contains(" ") || 
+                           (!trimmed.contains(".") && !trimmed.hasPrefix("http")) ||
+                           (trimmed.components(separatedBy: " ").count > 1)
+        
+        if isSearchQuery {
+            // Create Google search URL
+            let encodedQuery = trimmed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? trimmed
+            finalURL = "https://www.google.com/search?q=\(encodedQuery)"
+        } else {
+            // Add https:// if no protocol is specified for URLs
+            if !urlString.hasPrefix("http://") && !urlString.hasPrefix("https://") {
+                finalURL = "https://" + urlString
+            }
         }
         
         if let url = URL(string: finalURL) {
@@ -494,8 +517,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
             self.window.title = displayTitle
         }
     }
-    
-
     
     private func createMenuBar() {
         let mainMenu = NSMenu()
@@ -978,8 +999,15 @@ extension AppDelegate: WKNavigationDelegate {
             updateAddressBar(with: url.absoluteString)
         }
         
-        if let title = webView.title, !title.isEmpty {
-            updateTitle(with: title)
+        // Always try to update title, even if empty initially
+        let currentTitle = webView.title ?? ""
+        updateTitle(with: currentTitle)
+        
+        // Also check for title after a brief delay for dynamic updates
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            if let delayedTitle = webView.title, !delayedTitle.isEmpty {
+                self.updateTitle(with: delayedTitle)
+            }
         }
     }
     
@@ -1127,6 +1155,42 @@ extension AppDelegate: WKNavigationDelegate {
         case .formResubmitted: return "FORM_RESUBMITTED"
         case .other: return "OTHER"
         @unknown default: return "UNKNOWN"
+        }
+    }
+    
+    // Handle navigation failures - redirect to Google
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        print("🚨 Navigation failed: \(error.localizedDescription)")
+        
+        // Don't redirect if user is already on Google or if this was a Google redirect
+        guard let currentURL = webView.url?.absoluteString,
+              !currentURL.contains("google.com") else {
+            return
+        }
+        
+        // Redirect to Google as fallback
+        print("↪️ Redirecting to Google due to navigation failure")
+        if let googleURL = URL(string: "https://google.com") {
+            webView.load(URLRequest(url: googleURL))
+            updateAddressBar(with: "https://google.com")
+        }
+    }
+    
+    // Handle navigation errors after loading starts
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        print("🚨 Navigation error: \(error.localizedDescription)")
+        
+        // Don't redirect if user is already on Google
+        guard let currentURL = webView.url?.absoluteString,
+              !currentURL.contains("google.com") else {
+            return
+        }
+        
+        // Redirect to Google as fallback
+        print("↪️ Redirecting to Google due to navigation error")
+        if let googleURL = URL(string: "https://google.com") {
+            webView.load(URLRequest(url: googleURL))
+            updateAddressBar(with: "https://google.com")
         }
     }
 }
@@ -1533,7 +1597,11 @@ class FavoritesToolbar: NSView {
                 let siteName = url.host?.replacingOccurrences(of: "www.", with: "") ?? "New Site"
                 let displayName = "🌐 \(siteName.capitalized)"
                 
-                let targetIndex = insertionIndex >= 0 ? insertionIndex : -1
+                // Calculate insertion index fresh from current drop location
+                let dropLocation = convert(sender.draggingLocation, from: nil)
+                let targetIndex = calculateInsertionIndex(at: dropLocation)
+                
+                print("🎯 EMOJI DROP: Calculated insertion index: \(targetIndex)")
                 delegate?.addFavoriteAtIndex(name: displayName, url: urlString, index: targetIndex)
                 return true
             }
@@ -1576,9 +1644,21 @@ class FavoritesToolbar: NSView {
     }
     
     private func calculateInsertionIndex(at location: NSPoint) -> Int {
-        guard let stackView = stackView else { return -1 }
+        guard let stackView = stackView else { 
+            print("🎯 No stackView found")
+            return 0 
+        }
         
         var insertionIndex = 0
+        
+        // Convert location directly to stackView's coordinate system
+        let localLocation = stackView.convert(location, from: self)
+        print("🎯 Drop location: \(location) -> Local: \(localLocation)")
+        print("🎯 StackView frame: \(stackView.frame)")
+        print("🎯 StackView bounds: \(stackView.bounds)")
+        
+        let favoriteButtons = stackView.arrangedSubviews.compactMap { $0 as? DraggableFavoriteButton }
+        print("🎯 Found \(favoriteButtons.count) favorite buttons")
         
         for (index, view) in stackView.arrangedSubviews.enumerated() {
             guard view is DraggableFavoriteButton else { continue }
@@ -1586,19 +1666,26 @@ class FavoritesToolbar: NSView {
             let buttonFrame = view.frame
             let buttonCenter = buttonFrame.midX
             
-            if location.x < buttonCenter {
+            print("🎯 Button \(index): frame=\(buttonFrame), center=\(buttonCenter), dropX=\(localLocation.x)")
+            
+            if localLocation.x < buttonCenter {
                 insertionIndex = index
+                print("🎯 Inserting at index \(index) (before button)")
                 break
             }
             insertionIndex = index + 1
+            print("🎯 Continuing... insertionIndex now \(insertionIndex)")
         }
         
+        print("🎯 Final insertion index: \(insertionIndex)")
         return insertionIndex
     }
     
     private func updateInsertionPoint(to newIndex: Int) {
         guard let stackView = stackView else { return }
         guard newIndex != insertionIndex else { return }
+        
+        print("🎯 Updating insertion point to index: \(newIndex)")
         
         // Clear previous insertion point
         clearInsertionPoint()
@@ -1608,7 +1695,7 @@ class FavoritesToolbar: NSView {
         
         // Create visual gap with SMOOTH animation
         NSAnimationContext.runAnimationGroup { context in
-            context.duration = 0.08
+            context.duration = 0.12
             context.timingFunction = CAMediaTimingFunction(name: .easeOut)
             context.allowsImplicitAnimation = true
             
@@ -1621,7 +1708,8 @@ class FavoritesToolbar: NSView {
                     continue
                 } else if index == insertionIndex - 1 {
                     // Add extra spacing after the view that comes before insertion point
-                    stackView.setCustomSpacing(originalSpacing + 16, after: view)
+                    stackView.setCustomSpacing(originalSpacing + 20, after: view)
+                    print("🎯 Added gap after button at index \(index)")
                 } else {
                     // Normal spacing
                     stackView.setCustomSpacing(originalSpacing, after: view)
@@ -1630,7 +1718,8 @@ class FavoritesToolbar: NSView {
             
             // For insertion at beginning, adjust scroll view content insets
             if insertionIndex == 0, let scrollView = scrollView {
-                scrollView.contentInsets.left = 16
+                scrollView.contentInsets.left = 20
+                print("🎯 Added gap at beginning")
             }
         }
     }
@@ -1837,13 +1926,19 @@ extension AppDelegate: FavoritesToolbarDelegate, DraggableFavoriteDelegate, Tras
             return
         }
         
+        print("🌟 StackView has \(stackView.arrangedSubviews.count) subviews before insertion")
+        
         let newButton = createFavoriteButton(name: name, url: url)
         
         if index >= 0 && index < stackView.arrangedSubviews.count {
+            print("🌟 Inserting at specific index \(index)")
             stackView.insertArrangedSubview(newButton, at: index)
         } else {
+            print("🌟 Adding to end (index \(index) out of range)")
             stackView.addArrangedSubview(newButton)
         }
+        
+        print("🌟 StackView has \(stackView.arrangedSubviews.count) subviews after insertion")
         
         newButton.alphaValue = 0
         NSAnimationContext.runAnimationGroup { context in
@@ -2034,6 +2129,115 @@ class DraggableEmojiButton: NSButton {
 }
 
 extension DraggableEmojiButton: NSDraggingSource {
+    func draggingSession(_ session: NSDraggingSession, sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation {
+        return .copy
+    }
+}
+
+// MARK: - DraggableTitleLabel for Website Title
+class DraggableTitleLabel: NSTextField {
+    weak var addressBar: NSTextField?
+    
+    override func mouseDown(with event: NSEvent) {
+        guard let addressBar = addressBar,
+              let urlString = addressBar.stringValue as String?,
+              !urlString.isEmpty,
+              (urlString.hasPrefix("http") || urlString.contains(".")) else {
+            super.mouseDown(with: event)
+            return
+        }
+        
+        let startPoint = event.locationInWindow
+        var dragStarted = false
+        
+        window?.trackEvents(matching: [.leftMouseDragged, .leftMouseUp], timeout: NSEvent.foreverDuration, mode: .eventTracking) { dragEvent, stop in
+            guard let dragEvent = dragEvent else { return }
+            
+            let currentPoint = dragEvent.locationInWindow
+            let distance = sqrt(pow(currentPoint.x - startPoint.x, 2) + pow(currentPoint.y - startPoint.y, 2))
+            
+            if dragEvent.type == .leftMouseDragged && distance > 5 && !dragStarted {
+                dragStarted = true
+                self.startDragOperation(with: urlString, event: dragEvent)
+                stop.pointee = true
+            } else if dragEvent.type == .leftMouseUp {
+                stop.pointee = true
+                if !dragStarted {
+                    // This was just a click, handle normally
+                    super.mouseDown(with: event)
+                }
+            }
+        }
+    }
+    
+    private func startDragOperation(with urlString: String, event: NSEvent) {
+        let pasteboard = NSPasteboard(name: .drag)
+        pasteboard.clearContents()
+        pasteboard.setString("emoji_bookmark_add:\(urlString)", forType: .string)
+        
+        // Create drag image with page title and URL
+        let pageTitle = self.stringValue.isEmpty ? "Webpage" : self.stringValue
+        let truncatedTitle = pageTitle.count > 20 ? String(pageTitle.prefix(20)) + "..." : pageTitle
+        let truncatedURL = urlString.count > 18 ? String(urlString.prefix(18)) + "..." : urlString
+        
+        let titleSize = truncatedTitle.size(withAttributes: [
+            .font: NSFont.systemFont(ofSize: 11, weight: .medium)
+        ])
+        let urlSize = truncatedURL.size(withAttributes: [
+            .font: NSFont.systemFont(ofSize: 9, weight: .regular)
+        ])
+        
+        let padding: CGFloat = 8
+        let lineSpacing: CGFloat = 2
+        
+        let dragSize = NSSize(
+            width: max(titleSize.width, urlSize.width) + padding * 2,
+            height: titleSize.height + urlSize.height + lineSpacing + padding * 2
+        )
+        
+        let dragImage = NSImage(size: dragSize)
+        dragImage.lockFocus()
+        
+        // Draw background
+        NSColor.systemBlue.withAlphaComponent(0.15).setFill()
+        NSBezierPath(roundedRect: NSRect(origin: .zero, size: dragSize), xRadius: 6, yRadius: 6).fill()
+        
+        // Draw page title
+        let titleRect = NSRect(
+            x: padding,
+            y: padding + urlSize.height + lineSpacing,
+            width: titleSize.width,
+            height: titleSize.height
+        )
+        
+        truncatedTitle.draw(in: titleRect, withAttributes: [
+            .font: NSFont.systemFont(ofSize: 11, weight: .medium),
+            .foregroundColor: NSColor.systemBlue
+        ])
+        
+        // Draw URL
+        let urlRect = NSRect(
+            x: padding,
+            y: padding,
+            width: urlSize.width,
+            height: urlSize.height
+        )
+        
+        truncatedURL.draw(in: urlRect, withAttributes: [
+            .font: NSFont.systemFont(ofSize: 9, weight: .regular),
+            .foregroundColor: NSColor.systemBlue.withAlphaComponent(0.7)
+        ])
+        
+        dragImage.unlockFocus()
+        
+        let dragItem = NSDraggingItem(pasteboardWriter: "emoji_bookmark_add:\(urlString)" as NSString)
+        dragItem.setDraggingFrame(NSRect(origin: .zero, size: dragSize), contents: dragImage)
+        
+        beginDraggingSession(with: [dragItem], event: event, source: self)
+    }
+}
+
+extension DraggableTitleLabel: NSDraggingSource {
     func draggingSession(_ session: NSDraggingSession, sourceOperationMaskFor context: NSDraggingContext) -> NSDragOperation {
         return .copy
     }
