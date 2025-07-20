@@ -24,7 +24,7 @@
 ├── 🔑 Touch ID/Face ID Integration  
 ├── 🛡️ Secure Enclave Protection
 └── 🌐 Cross-Platform Compatibility
-
+```
 
 ### 🎯 **FIDO2/WebAuthn Compliance**
 - ✅ **FIDO Alliance Guidelines** - Strictly followed
@@ -58,24 +58,36 @@
 
 ```mermaid
 graph TB
-    A[WebMan Browser] --> B[WKWebView Engine]
-    A --> C[DogTag Framework]
+    A[WebMan Browser] --> B[WebAuthnWebView]
+    A --> C[DogTagClient Framework]
+    A --> D[BrowserManager]
     
-    B --> D[Web Content]
-    B --> E[JavaScript Bridge]
+    B --> E[WKWebView Engine]
+    B --> F[WebAuthnNativeHandler]
+    B --> G[JavaScript Bridge]
     
-    C --> F[FIDO2 Implementation]
-    C --> G[Biometric Auth]
-    C --> H[Secure Storage]
+    C --> H[DogTag Manager UI]
+    C --> I[Passkey Storage]
     
-    F --> I[Touch ID/Face ID]
-    G --> I
-    H --> J[Keychain Services]
-    H --> K[Secure Enclave]
+    F --> J[FIDO2 Implementation]
+    F --> K[Biometric Auth]
+    F --> L[ASAuthorizationController]
+    
+    J --> M[Touch ID/Face ID]
+    K --> M
+    L --> M
+    
+    I --> N[Keychain Services]
+    I --> O[Secure Enclave]
+    
+    D --> P[Navigation Control]
+    D --> Q[Download Management]
+    D --> R[UI State Management]
     
     style A fill:#ff6b6b,stroke:#333,stroke-width:3px
-    style C fill:#4ecdc4,stroke:#333,stroke-width:2px
-    style F fill:#45b7d1,stroke:#333,stroke-width:2px
+    style B fill:#4ecdc4,stroke:#333,stroke-width:2px
+    style C fill:#45b7d1,stroke:#333,stroke-width:2px
+    style F fill:#f39c12,stroke:#333,stroke-width:2px
 ```
 
 ## 🎮 Quick Start
@@ -176,7 +188,7 @@ WebMan isn't just a browser - it's a **revolution**:
 ### 🐕 Join the DogTag Pack!
 ```bash
 # Fork the repo
-git fork https://github.com/webauthnai/WebMan.git
+git clone https://github.com/webauthnai/WebMan.git
 
 # Create your feature branch
 git checkout -b feature/amazing-dogtag-feature
