@@ -3,11 +3,12 @@
 
 [![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org)
 [![macOS](https://img.shields.io/badge/macOS-14.6+-blue.svg)](https://www.apple.com/macos/)
-[![FIDO2](https://img.shields.io/badge/FIDO2-Certified-green.svg)](https://fidoalliance.org/)
+[![FIDO2](https://img.shields.io/badge/FIDO2-Compliant-green.svg)](https://fidoalliance.org/)
 [![WebAuthn](https://img.shields.io/badge/WebAuthn-Level%202-brightgreen.svg)](https://www.w3.org/TR/webauthn-2/)
 [![AI Built](https://img.shields.io/badge/Built%20by-AI-purple.svg)](https://github.com/webauthnai)
 
-<img width="1235" height="940" alt="image" src="https://github.com/user-attachments/assets/da2bec06-0664-4b43-b14e-fb2a60a76924" />
+<img width="1673" height="991" alt="image" src="https://github.com/user-attachments/assets/d45b2d96-787b-4b53-885c-81d2962465fb" />
+
 
 > **🚀 Revolutionary Browser Technology**: WebWidow transforms Apple's WKWebView into a full-blown browser with **native passkey support** - completely designed and built by AI following FIDO Alliance Guidelines!
 
