@@ -1,4 +1,6 @@
 # 🕷️WebWidow Browser
+### formerly WebMan
+
 ## *The World's First AI-Built FIDO2/WebAuthn Native Browser*
 
 [![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org)
