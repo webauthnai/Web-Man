@@ -192,7 +192,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         titleLabel.backgroundColor = NSColor.clear
         
         // Set up dragging for title
-        (titleLabel as! DraggableTitleLabel).addressBar = addressBar
+        (titleLabel!).addressBar = addressBar
         
         // Create and configure toolbar
         let toolbar = NSToolbar(identifier: "UnifiedToolbar")
