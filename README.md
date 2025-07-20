@@ -58,36 +58,41 @@
 
 ```mermaid
 graph TB
-    A[WebMan Browser] --> B[WebAuthnWebView]
-    A --> C[DogTagClient Framework]
-    A --> D[BrowserManager]
+    A[AppDelegate - Main App] --> B[NSWindow]
+    A --> C[NSToolbar]
+    A --> D[WebView Setup]
+    A --> E[DogTagWindow]
     
-    B --> E[WKWebView Engine]
-    B --> F[WebAuthnNativeHandler]
-    B --> G[JavaScript Bridge]
+    B --> F[WebView Content]
+    C --> G[Navigation Buttons]
+    C --> H[Address Bar]
+    C --> I[DogTag Manager Button]
+    C --> J[Page Title Label]
     
-    C --> H[DogTag Manager UI]
-    C --> I[Passkey Storage]
+    D --> K[WebAuthnBrowserSetup.createWebViewConfiguration]
+    D --> L[Standard WKWebView]
     
-    F --> J[FIDO2 Implementation]
-    F --> K[Biometric Auth]
-    F --> L[ASAuthorizationController]
+    K --> M[DogTagClient Framework]
+    M --> N[WebAuthn Bridge Config]
     
-    J --> M[Touch ID/Face ID]
-    K --> M
-    L --> M
+    L --> O[WebAuthnNativeHandler]
+    L --> P[WKWebView Engine]
     
-    I --> N[Keychain Services]
-    I --> O[Secure Enclave]
+    O --> Q[ASAuthorizationController]
+    O --> R[JavaScript Message Bridge]
     
-    D --> P[Navigation Control]
-    D --> Q[Download Management]
-    D --> R[UI State Management]
+    Q --> S[Touch ID/Face ID]
+    Q --> T[Security Keys]
+    
+    E --> U[DogTagManager SwiftUI View]
+    E --> V[NSHostingView]
+    
+    U --> W[DogTagClient UI Components]
     
     style A fill:#ff6b6b,stroke:#333,stroke-width:3px
-    style B fill:#4ecdc4,stroke:#333,stroke-width:2px
-    style C fill:#45b7d1,stroke:#333,stroke-width:2px
-    style F fill:#f39c12,stroke:#333,stroke-width:2px
+    style M fill:#4ecdc4,stroke:#333,stroke-width:2px
+    style O fill:#f39c12,stroke:#333,stroke-width:2px
+    style E fill:#45b7d1,stroke:#333,stroke-width:2px
 ```
 
 ## 🎮 Quick Start
