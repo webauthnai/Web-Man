@@ -283,60 +283,69 @@ graph TD
     style G fill:#d35400,stroke:#fff,stroke-width:2px,color:#fff
 ```
 
-### WebAuthn/FIDO2 Technical Flow
+### How WebAuthn Works in WebMan
 
 ```mermaid
 graph TD
-    A[Website<br/>JS] --> B[WKWebView]
-    A --> C[WebAuthn<br/>Handler]
+    A[Website calls<br/>navigator.credentials] --> B[WebAuthnWebView<br/>WKWebView]
+    B --> C[WKScriptMessageHandler<br/>JavaScript Bridge]
     
-    B --> D[JS Bridge]
-    C --> E[ASAuth<br/>Controller]
+    C --> D[WebAuthnNativeHandler<br/>Swift Class]
+    D --> E[DogTagClient<br/>Framework]
     
-    D --> F[Message<br/>Handler]
-    E --> G[Touch ID]
-    E --> H[USB Keys]
+    E --> F[Challenge<br/>Validation]
+    E --> G[Origin<br/>Verification]
     
-    F --> I[Swift<br/>Processing]
-    G --> J[Secure<br/>Enclave]
-    H --> K[FIDO2<br/>Protocol]
+    F --> H[ASAuthorizationController<br/>Native iOS Auth]
+    G --> I[DogTagStorage<br/>Credential Lookup]
     
-    I --> L[Response]
-    J --> L
-    K --> L
-    L --> M[Success]
+    H --> J[User Consent<br/>Touch ID/Face ID]
+    I --> K[Existing<br/>Credentials]
     
-    style C fill:#c0392b,stroke:#fff,stroke-width:3px,color:#fff
+    J --> L[Private Key<br/>Signing]
+    K --> M[Credential<br/>Selection]
+    
+    L --> N[WebAuthn Response<br/>JSON]
+    M --> N
+    N --> O[JavaScript Promise<br/>Resolution]
+    
+    style C fill:#f39c12,stroke:#fff,stroke-width:3px,color:#fff
+    style D fill:#c0392b,stroke:#fff,stroke-width:3px,color:#fff
     style E fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff
-    style J fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff
+    style H fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff
 ```
 
-### JavaScript Bridge & Message Flow
+### How FIDO2/CTAP/CBOR Works in WebMan
 
 ```mermaid
 graph TD
-    A[navigator<br/>credentials] --> B[WKWebView<br/>Handler]
-    A --> C[Challenge<br/>Data]
+    A[FIDO2 Challenge<br/>from Server] --> B[WebAuthn<br/>Processing]
+    B --> C[CTAP2<br/>Protocol Handler]
     
-    B --> D[Swift<br/>Bridge]
-    C --> E[Validation<br/>Logic]
+    C --> D[Platform<br/>Authenticator]
+    C --> E[Cross-Platform<br/>Authenticator]
     
-    D --> F[WebAuthn<br/>Handler]
-    E --> G[ASAuth<br/>Setup]
+    D --> F[ASAuthorization<br/>PlatformProvider]
+    E --> G[ASAuthorization<br/>SecurityKeyProvider]
     
-    F --> H[User<br/>Prompt]
-    G --> I[Crypto<br/>Operation]
+    F --> H[Secure Enclave<br/>Key Operations]
+    G --> I[USB/NFC<br/>Security Key]
     
-    H --> J[Touch ID/<br/>USB Key]
-    I --> K[Key<br/>Generation]
+    H --> J[CBOR<br/>Encoding]
+    I --> K[CTAP2<br/>Commands]
     
-    J --> L[Auth<br/>Result]
-    K --> L
-    L --> M[JS Promise<br/>Resolution]
+    J --> L[Attestation<br/>Object]
+    K --> M[External Key<br/>Response]
     
+    L --> N[WebAuthn<br/>Response]
+    M --> N
+    N --> O[CBOR Decoded<br/>to JSON]
+    O --> P[Server<br/>Verification]
+    
+    style C fill:#f39c12,stroke:#fff,stroke-width:3px,color:#fff
     style F fill:#c0392b,stroke:#fff,stroke-width:3px,color:#fff
     style G fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff
-    style I fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff
+    style H fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff
 ```
 
 ## 🎮 Quick Start
