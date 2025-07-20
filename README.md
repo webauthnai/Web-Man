@@ -9,8 +9,7 @@
 [![WebAuthn](https://img.shields.io/badge/WebAuthn-Level%202-brightgreen.svg)](https://www.w3.org/TR/webauthn-2/)
 [![AI Built](https://img.shields.io/badge/Built%20by-AI-purple.svg)](https://github.com/webauthnai)
 
-<img width="1673" height="991" alt="image" src="https://github.com/user-attachments/assets/d45b2d96-787b-4b53-885c-81d2962465fb" />
-
+<img width="3212" height="2076" alt="image" src="https://github.com/user-attachments/assets/137beaef-3f45-44a4-9829-8f6026aa8fcf" />
 
 > **🚀 Revolutionary Browser Technology**: WebWidow transforms Apple's WKWebView into a full-blown browser with **native passkey support** - completely designed and built by AI following FIDO Alliance Guidelines!
 
