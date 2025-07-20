@@ -216,54 +216,41 @@ graph TD
     S --> W[Passkey<br/>Management]
     T --> X[SwiftUI<br/>Interface]
     
-    style A fill:#ff6b6b,stroke:#333,stroke-width:3px
-    style E fill:#4ecdc4,stroke:#333,stroke-width:2px
-    style H fill:#f39c12,stroke:#333,stroke-width:2px
-    style D fill:#9b59b6,stroke:#333,stroke-width:2px
-    style R fill:#2ecc71,stroke:#333,stroke-width:2px
+    style A fill:#c0392b,stroke:#fff,stroke-width:3px,color:#fff
+    style E fill:#16a085,stroke:#fff,stroke-width:2px,color:#fff
+    style H fill:#d68910,stroke:#fff,stroke-width:2px,color:#fff
+    style D fill:#7d3c98,stroke:#fff,stroke-width:2px,color:#fff
+    style R fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff
 ```
 
 ### DogTagClient Framework Architecture
 
 ```mermaid
 graph TD
-    A[DogTagClient Framework] --> B[WebAuthn Configuration]
-    A --> C[UI Components]
-    A --> D[Storage Integration]
+    A[DogTagClient<br/>Framework]
+    A --> B[WebAuthn<br/>Config]
+    A --> C[UI<br/>Components]
+    A --> D[Storage<br/>Integration]
     
-    B --> E[WebAuthnBrowserSetup]
-    B --> F[Native Bridge Setup]
-    B --> G[FIDO2 Configuration]
+    B --> E[Browser<br/>Setup]
+    B --> F[Native<br/>Bridge]
+    B --> G[FIDO2<br/>Config]
     
-    E --> H[WKWebView Configuration]
-    E --> I[JavaScript Injection]
-    E --> J[Message Handler Setup]
+    E --> H[WKWebView<br/>Setup]
+    F --> I[ASAuthorization<br/>Controller]
+    G --> J[Challenge<br/>Processing]
     
-    F --> K[ASAuthorizationController Setup]
-    F --> L[Platform Authenticator Config]
-    F --> M[Cross-Platform Authenticator Config]
+    C --> K[DogTag<br/>Manager UI]
+    D --> L[Storage<br/>Layer]
     
-    C --> N[DogTagManager SwiftUI Views]
-    C --> O[Passkey Management Interface]
-    C --> P[Credential Display Components]
-    
-    D --> Q[DogTagStorage Integration]
-    D --> R[Keychain Access Layer]
-    D --> S[Secure Enclave Interface]
-    
-    G --> T[Challenge Generation]
-    G --> U[Attestation Processing]
-    G --> V[Assertion Verification]
-    
-    K --> W[Native FIDO2<br/>Implementation]
-    L --> X[Touch ID/<br/>Face ID]
-    Q --> Y[Data<br/>Persistence]
-    R --> Z[Secure<br/>Storage]
+    I --> M[Touch ID/<br/>Face ID]
+    J --> N[Crypto<br/>Operations]
+    K --> O[Passkey<br/>Display]
+    L --> P[Secure<br/>Storage]
     
     style A fill:#2ecc71,stroke:#333,stroke-width:3px
     style B fill:#3498db,stroke:#333,stroke-width:2px
-    style C fill:#e74c3c,stroke:#333,stroke-width:2px
-    style D fill:#f39c12,stroke:#333,stroke-width:2px
+    style I fill:#f39c12,stroke:#333,stroke-width:2px
 ```
 
 ### DogTagStorage Framework Architecture
@@ -299,83 +286,46 @@ graph TD
 ### WebAuthn/FIDO2 Technical Flow
 
 ```mermaid
-graph TD
-    A[Website<br/>JavaScript] --> B[navigator.credentials<br/>.create/.get]
+graph LR
+    A[Website<br/>JavaScript] --> B[WKWebView<br/>Bridge]
+    B --> C[WebAuthnNativeHandler]
+    C --> D[ASAuthorizationController]
     
-    B --> C[WKWebView<br/>JavaScript Bridge]
-    C --> D[WebAuthnNativeHandler<br/>Swift]
+    D --> E[Platform Auth<br/>Touch ID/Face ID]
+    D --> F[Cross-Platform<br/>USB/NFC Keys]
     
-    D --> E[Challenge<br/>Validation]
-    E --> F[ASAuthorizationController<br/>Setup]
+    E --> G[Secure Enclave<br/>Crypto Operations]
+    F --> H[FIDO2/CTAP2<br/>Protocol]
     
-    F --> G[Platform<br/>Authenticator]
-    F --> H[Cross-Platform<br/>Authenticator]
+    G --> I[Response]
+    H --> I
+    I --> J[JavaScript<br/>Promise]
+    J --> K[Website<br/>Success]
     
-    G --> I[Touch ID/<br/>Face ID]
-    G --> J[Secure<br/>Enclave]
-    
-    H --> K[USB<br/>Security Key]
-    H --> L[NFC<br/>Security Key]
-    
-    I --> M[Biometric<br/>Verification]
-    J --> N[Key<br/>Generation]
-    
-    K --> O[FIDO2<br/>Protocol]
-    L --> P[CTAP2<br/>Protocol]
-    
-    M --> Q[Private Key<br/>Signing]
-    N --> Q
-    O --> Q
-    P --> Q
-    
-    Q --> R[Assertion/<br/>Attestation]
-    R --> S[JavaScript<br/>Response]
-    S --> T[Website<br/>Authentication]
-    
-    style A fill:#f39c12,stroke:#333,stroke-width:2px
-    style D fill:#e74c3c,stroke:#333,stroke-width:3px
-    style F fill:#3498db,stroke:#333,stroke-width:2px
-    style J fill:#2ecc71,stroke:#333,stroke-width:2px
+    style C fill:#e74c3c,stroke:#333,stroke-width:3px
+    style D fill:#3498db,stroke:#333,stroke-width:2px
+    style G fill:#2ecc71,stroke:#333,stroke-width:2px
 ```
 
 ### JavaScript Bridge & Message Flow
 
 ```mermaid
-graph TD
-    A[WebAuthn<br/>JavaScript API]
-    A --> B[navigator.credentials<br/>.create]
-    A --> C[navigator.credentials<br/>.get]
+graph LR
+    A[navigator.credentials<br/>create/get] --> B[WKWebView<br/>Message Handler]
+    B --> C[WebAuthnNativeHandler<br/>Swift]
     
-    B --> D[Registration<br/>Challenge]
-    C --> E[Authentication<br/>Challenge]
+    C --> D[Challenge<br/>Validation]
+    D --> E[ASAuthorizationController]
+    E --> F[User Auth<br/>Touch ID/Keys]
     
-    D --> F[WKWebView<br/>Message Handler]
-    E --> F
+    F --> G[Crypto<br/>Operation]
+    G --> H[Response<br/>Generation]
+    H --> I[JavaScript<br/>Promise]
+    I --> J[Website<br/>Success]
     
-    F --> G[Swift<br/>WebAuthnNativeHandler]
-    
-    G --> H[Parse<br/>Challenge]
-    H --> I[Validate<br/>Origin]
-    I --> J[Create<br/>Authorization Request]
-    
-    J --> K[ASAuthorizationController<br/>Present]
-    
-    K --> L[User<br/>Interaction]
-    L --> M[Credential<br/>Generation/Selection]
-    
-    M --> N[Cryptographic<br/>Operation]
-    N --> O[Response<br/>Generation]
-    
-    O --> P[Swift<br/>Response Handler]
-    P --> Q[JavaScript<br/>Promise Resolution]
-    
-    Q --> R[WebAuthn<br/>Success Callback]
-    R --> S[Website<br/>Login/Registration]
-    
-    style A fill:#f39c12,stroke:#333,stroke-width:2px
-    style G fill:#e74c3c,stroke:#333,stroke-width:3px
-    style K fill:#3498db,stroke:#333,stroke-width:2px
-    style N fill:#2ecc71,stroke:#333,stroke-width:2px
+    style C fill:#e74c3c,stroke:#333,stroke-width:3px
+    style E fill:#3498db,stroke:#333,stroke-width:2px
+    style G fill:#2ecc71,stroke:#333,stroke-width:2px
 ```
 
 ## 🎮 Quick Start
