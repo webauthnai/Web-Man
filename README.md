@@ -1,4 +1,4 @@
-# 🐕🏷️ WebMan Browser
+#🕷️🧟‍♂️ WebMan Browser
 ## *The World's First AI-Built FIDO2/WebAuthn Native Browser*
 
 [![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org)
@@ -21,12 +21,12 @@
 
 ### 🔐 **Native Passkey Powerhouse**
 ```
-🐕 DogTag Client Framework
-├── 🏷️ Native FIDO2/WebAuthn Implementation
+🐶 DogTag Client Framework
+├── 🪪 Native FIDO2/WebAuthn Implementation
 ├── 🔑 Touch ID/Face ID Integration  
 ├── 🛡️ Secure Enclave Protection
 └── 🌐 Cross-Platform Compatibility
-```
+
 
 ### 🎯 **FIDO2/WebAuthn Compliance**
 - ✅ **FIDO Alliance Guidelines** - Strictly followed
