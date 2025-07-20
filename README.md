@@ -286,7 +286,7 @@ graph TD
 ### WebAuthn/FIDO2 Technical Flow
 
 ```mermaid
-graph LR
+graph TB
     A[Website<br/>JS] --> B[WKWebView]
     B --> C[WebAuthn<br/>Handler]
     C --> D[ASAuth<br/>Controller]
@@ -310,7 +310,7 @@ graph LR
 ### JavaScript Bridge & Message Flow
 
 ```mermaid
-graph LR
+graph TB
     A[navigator<br/>credentials] --> B[WKWebView<br/>Handler]
     B --> C[WebAuthn<br/>Swift]
     
