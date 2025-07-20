@@ -1,4 +1,4 @@
-# 🕷️WebWidow Browser
+# 🕷 WebWidow Browser
 ### formerly WebMan
 
 ## *The World's First AI-Built FIDO2/WebAuthn Native Browser*
@@ -422,6 +422,7 @@ Copyright (c) 2025 WebAuthn AI
 
 ## 🔗 Links
 
+- 🕷️ **WebWidow**: [webauthnai.com](https://webauthn.ai)
 - 🐙 **GitHub**: [github.com/webauthnai/Web-Man](https://github.com/webauthnai/Web-Man)
 - 💬 **Test Chat**: [chat.webauthn.ai](https://chat.webauthn.ai)
 - 🐶🪪 **DogTag Framework**: [github.com/webauthnai/DogTagClient](https://github.com/webauthnai/DogTagClient)
