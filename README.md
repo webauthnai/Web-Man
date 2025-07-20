@@ -1,5 +1,5 @@
 # 🕷 WebWidow Browser
-### formerly WebMan
+*** formerly WebMan ***
 
 ## *The World's First AI-Built FIDO2/WebAuthn Native Browser*
 
