@@ -1,0 +1,24 @@
+{
+  "originHash" : "ca3a3e529fef762b156c5e31876b207080fd66729ef8152ebc89a215af77c988",
+  "pins" : [
+    {
+      "identity" : "dogtagclient",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/webauthnai/DogTagClient.git",
+      "state" : {
+        "revision" : "2e9bed5a39595d2aad503563714c29c0b7f8a8c9",
+        "version" : "1.0.8"
+      }
+    },
+    {
+      "identity" : "dogtagstorage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/webauthnai/DogTagStorage.git",
+      "state" : {
+        "revision" : "2b099081c6ad1f7f83749defed8381e304ed6c87",
+        "version" : "1.0.6"
+      }
+    }
+  ],
+  "version" : 3
+}
