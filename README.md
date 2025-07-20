@@ -17,7 +17,7 @@
 - **Browser**: Entirely crafted by AI using Swift and modern macOS APIs
 - **DogTag Framework**: Revolutionary passkey system built by AI from scratch
 - **FIDO2 Compliance**: AI-implemented following official FIDO Alliance specifications
-- **Server Integration**: Works seamlessly with [chat.xcf.ai](https://chat.xcf.ai) - also AI-built!
+- **Server Integration**: Works seamlessly with [chat.webauthn.ai](https://chat.webauthn.ai) - also AI-built!
 
 ### 🔐 **Native Passkey Powerhouse**
 ```
@@ -52,7 +52,7 @@
 - 🚀 **Zero-Click Login** - Seamless authentication experience
 
 ### 🧪 **Test Sites Ready**
-- 💬 **[chat.xcf.ai](https://chat.xcf.ai)** - AI-built FIDO2 chat platform
+- 💬 **[chat.webauthn.ai](https://chat.webauthn.ai)** - AI-built FIDO2 chat platform
 - 🧪 **[webauthn.io](https://webauthn.io)** - Official FIDO testing
 - ⭐ **[webauthn.me](https://webauthn.me)** - Community test suite
 
@@ -76,7 +76,7 @@ Think of a DogTag as your **digital identity card** that contains:
 sequenceDiagram
     participant U as User
     participant W as WebMan Browser
-    participant S as Website (chat.xcf.ai)
+    participant S as Website (chat.webauthn.ai)
     participant D as DogTagClient
     participant A as ASAuthorizationController
     participant E as Secure Enclave
@@ -102,7 +102,7 @@ sequenceDiagram
 sequenceDiagram
     participant U as User
     participant W as WebMan Browser
-    participant S as Website (chat.xcf.ai)
+    participant S as Website (chat.webauthn.ai)
     participant D as DogTagClient
     participant A as ASAuthorizationController
     participant E as Secure Enclave
@@ -369,7 +369,7 @@ open WebMan.xcodeproj
 
 ### 🪪 Try Your First DogTag!
 1. **Launch WebMan** 🚀
-2. **Navigate to** [chat.xcf.ai](https://chat.xcf.ai) 💬
+2. **Navigate to** [chat.webauthn.ai](https://chat.webauthn.ai) 💬
 3. **Register** with your passkey 🔐
 4. **Watch the magic** happen! ✨
 
@@ -422,7 +422,7 @@ Test WebMan's passkey powers on these real WebAuthn implementations:
 
 | Site | Type | AI-Built? | Features |
 |------|------|-----------|----------|
-| [chat.xcf.ai](https://chat.xcf.ai) | 💬 Chat Platform | ✅ **Yes!** | Full FIDO2 server |
+| [chat.webauthn.ai](https://chat.webauthn.ai) | 💬 Chat Platform | ✅ **Yes!** | Full FIDO2 server |
 | [webauthn.io](https://webauthn.io) | 🧪 Test Suite | ❌ No | Official FIDO testing |
 | [webauthn.me](https://webauthn.me) | ⭐ Demo Site | ❌ No | Community examples |
 
@@ -486,7 +486,7 @@ Copyright (c) 2025 WebAuthn AI
 ## 🔗 Links
 
 - 🐙 **GitHub**: [github.com/webauthnai/Web-Man](https://github.com/webauthnai/Web-Man)
-- 💬 **Test Chat**: [chat.xcf.ai](https://chat.xcf.ai)
+- 💬 **Test Chat**: [chat.webauthn.ai](https://chat.webauthn.ai)
 - 🐶🪪 **DogTag Framework**: [github.com/webauthnai/DogTagClient](https://github.com/webauthnai/DogTagClient)
 
 ---
@@ -496,5 +496,5 @@ Copyright (c) 2025 WebAuthn AI
   <p><strong>Built by AI • Secured by FIDO2 • Powered by DogTags</strong></p>
   
   [![Download](https://img.shields.io/badge/Download-WebMan-blue.svg?style=for-the-badge)](https://github.com/webauthnai/Web-Man/releases)
-  [![Try Demo](https://img.shields.io/badge/Try-chat.xcf.ai-green.svg?style=for-the-badge)](https://chat.xcf.ai)
+  [![Try Demo](https://img.shields.io/badge/Try-chat.webauthn.ai-green.svg?style=for-the-badge)](https://chat.webauthn.ai)
 </div> 

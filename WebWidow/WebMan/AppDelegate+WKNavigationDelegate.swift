@@ -181,39 +181,33 @@ extension AppDelegate: WKNavigationDelegate {
         }
     }
     
-    // Handle navigation failures - redirect to Google
+    // Handle navigation failures - NO automatic Google redirects
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         print("🚨 Navigation failed: \(error.localizedDescription)")
         
-        // Don't redirect if user is already on Google or if this was a Google redirect
-        guard let currentURL = webView.url?.absoluteString,
-              !currentURL.contains("google.com") else {
+        // Check if this is a cancelled navigation (likely due to download handling)
+        if (error as NSError).code == NSURLErrorCancelled {
+            print("✅ Navigation cancelled - likely due to download handling")
             return
         }
         
-        // Redirect to Google as fallback
-        print("↪️ Redirecting to Google due to navigation failure")
-        if let googleURL = URL(string: "https://google.com") {
-            webView.load(URLRequest(url: googleURL))
-            updateAddressBar(with: "https://google.com")
-        }
+        // Log the failure but don't automatically redirect to Google
+        // Only user input in address bar should trigger search
+        print("❌ Navigation failed, but not automatically redirecting to Google")
     }
     
-    // Handle navigation errors after loading starts
+    // Handle navigation errors after loading starts - NO automatic Google redirects
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         print("🚨 Navigation error: \(error.localizedDescription)")
         
-        // Don't redirect if user is already on Google
-        guard let currentURL = webView.url?.absoluteString,
-              !currentURL.contains("google.com") else {
+        // Check if this is a cancelled navigation (likely due to download handling)
+        if (error as NSError).code == NSURLErrorCancelled {
+            print("✅ Navigation cancelled - likely due to download handling")
             return
         }
         
-        // Redirect to Google as fallback
-        print("↪️ Redirecting to Google due to navigation error")
-        if let googleURL = URL(string: "https://google.com") {
-            webView.load(URLRequest(url: googleURL))
-            updateAddressBar(with: "https://google.com")
-        }
+        // Log the error but don't automatically redirect to Google
+        // Only user input in address bar should trigger search
+        print("❌ Navigation error, but not automatically redirecting to Google")
     }
 }

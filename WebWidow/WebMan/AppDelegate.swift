@@ -10,7 +10,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
     var webView: WKWebView!
     var dogTagWindow: NSWindow?
     var addressBar: NSTextField!
-    var titleLabel: DraggableTitleLabel!
+    var titleLabel: NSTextField!
     
     // Download management properties
     var downloadTask: URLSessionDownloadTask?
@@ -181,8 +181,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         // Store the container as our address bar reference for the toolbar
         self.addressBarContainer = addressBarContainer
         
-        // Create DRAGGABLE title label
-        titleLabel = DraggableTitleLabel(labelWithString: "WebWidow - Native WebAuthn Browser")
+        // Create title label (non-draggable)
+        titleLabel = NSTextField(labelWithString: "WebWidow - Native WebAuthn Browser")
         titleLabel.font = NSFont.systemFont(ofSize: 12, weight: .medium)
         titleLabel.textColor = NSColor.secondaryLabelColor
         titleLabel.alignment = .right
@@ -190,9 +190,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         titleLabel.isEditable = false
         titleLabel.isBordered = false
         titleLabel.backgroundColor = NSColor.clear
-        
-        // Set up dragging for title
-        (titleLabel!).addressBar = addressBar
         
         // Create and configure toolbar
         let toolbar = NSToolbar(identifier: "UnifiedToolbar")
@@ -460,17 +457,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
     
     func getDefaultFavorites() -> [(name: String, url: String)] {
         return [
+            ("🕷️ webauthn.ai", "https://webauthn.ai"),
             ("💬 chat.webauthn.ai", "https://chat.webauthn.ai"),
-            ("🐙 github/webauthnai", "https://github.com/webauthnai"),
+            ("⭐️ WebAuthn.me", "https://webauthn.me"),
             ("🤖 webauthn.io", "https://webauthn.io"),
             ("🧠 d1f.ai", "https://d1f.ai"),
             ("❄️ codefreeze.ai", "https://codefreeze.ai"),
             ("🚀 superbox64.com", "https://superbox64.com"),
             ("📱 apps.apple.com", "https://apps.apple.com/ba/developer/id1239131660"),
+            ("🐙 github/webauthnai", "https://github.com/webauthnai"),
             ("🎮 github/SuperBox64", "https://github.com/SuperBox64?tab=repositories"),
             ("❄️ github/CodeFreezeAI", "https://github.com/orgs/CodeFreezeAI/repositories"),
-            ("⭐️ WebAuthn.me", "https://webauthn.me"),
-            ("🔐 WebAuthn.io", "https://webauthn.io")
         ]
     }
     
@@ -543,29 +540,33 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
     
     @objc func addressBarAction(_ sender: NSTextField) {
         let urlString = sender.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
-        navigateToURL(urlString)
-    }
-    
-    func navigateToURL(_ urlString: String) {
-        var finalURL = urlString
         
-        // Check if this looks like a URL or a search query
+        // ONLY trigger search for user input from address bar
         let trimmed = urlString.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        // If it's a search query (contains spaces, no dots, or doesn't look like a domain)
+        // Check if this looks like a search query (user typed something that's not a URL)
         let isSearchQuery = trimmed.contains(" ") || 
                            (!trimmed.contains(".") && !trimmed.hasPrefix("http")) ||
                            (trimmed.components(separatedBy: " ").count > 1)
         
         if isSearchQuery {
-            // Create Google search URL
+            // Create Google search URL for user search queries
             let encodedQuery = trimmed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? trimmed
-            finalURL = "https://www.google.com/search?q=\(encodedQuery)"
+            let searchURL = "https://www.google.com/search?q=\(encodedQuery)"
+            navigateToURL(searchURL)
         } else {
-            // Add https:// if no protocol is specified for URLs
-            if !urlString.hasPrefix("http://") && !urlString.hasPrefix("https://") {
-                finalURL = "https://" + urlString
-            }
+            // User entered a URL, navigate normally
+            navigateToURL(urlString)
+        }
+    }
+    
+    func navigateToURL(_ urlString: String) {
+        var finalURL = urlString
+        
+        // Simple URL handling - NO search logic here
+        // Add https:// if no protocol is specified for URLs
+        if !urlString.hasPrefix("http://") && !urlString.hasPrefix("https://") {
+            finalURL = "https://" + urlString
         }
         
         if let url = URL(string: finalURL) {
@@ -655,7 +656,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         alert.messageText = "WebWidow"
         alert.informativeText = """
             WebAuthn Client Application
-            Version 1.0
+            Version 1.0.1
             Core Features
             
             🔐 FIDO2/WebAuthn Compliant Passkeys
