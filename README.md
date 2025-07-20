@@ -9,8 +9,6 @@
 
 > **🚀 Revolutionary Browser Technology**: WebMan transforms Apple's WKWebView into a full-blown browser with **native passkey support** - completely designed and built by AI following FIDO Alliance Guidelines!
 
-![WebMan Browser Demo](https://via.placeholder.com/800x400/1a1a1a/ffffff?text=WebMan+Browser+%F0%9F%90%95%F0%9F%8F%B7%EF%B8%8F)
-
 ## 🌟 What Makes WebMan Special?
 
 ### 🤖 **100% AI-Engineered**
