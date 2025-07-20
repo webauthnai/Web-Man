@@ -295,20 +295,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         stackView.alignment = .centerY
         stackView.distribution = .gravityAreas
         
-        // Add favorite buttons with beautiful design
-        let favorites = [
-            ("💬 chat.xcf.ai", "https://chat.xcf.ai"),
-            ("🐙 github/webauthnai", "https://github.com/webauthnai"),
-            ("🤖 xcf.ai", "https://xcf.ai"),
-            ("🧠 d1f.ai", "https://d1f.ai"),
-            ("❄️ codefreeze.ai", "https://codefreeze.ai"),
-            ("🚀 superbox64.com", "https://superbox64.com"),
-            ("📱 apps.apple.com", "https://apps.apple.com/ba/developer/todd-bruss/id1239131660"),
-            ("🎮 github/SuperBox64", "https://github.com/SuperBox64?tab=repositories"),
-            ("❄️ github/CodeFreezeAI", "https://github.com/orgs/CodeFreezeAI/repositories"),
-            ("⭐️ WebAuthn.me", "https://webauthn.me"),
-            ("🔐 WebAuthn.io", "https://webauthn.io"),
-        ]
+        // Load favorites from UserDefaults or use default set
+        print("🚀 App startup - loading favorites...")
+        let favorites = loadFavoritesFromUserDefaults()
+        print("🚀 Loaded \(favorites.count) favorites for initial display")
         
         for (name, url) in favorites {
             let button = createFavoriteButton(name: name, url: url)
@@ -412,9 +402,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
     
     // MARK: - UserDefaults for Favorites
     
-    private func saveFavoritesToUserDefaults() {
+    public func saveFavoritesToUserDefaults() {
         guard let toolbar = findFavoritesToolbar(),
-              let stackView = toolbar.stackView else { return }
+              let stackView = toolbar.stackView else { 
+            print("❌ Could not find toolbar/stackView for saving")
+            return 
+        }
         
         var favoritesData: [[String: String]] = []
         
@@ -425,28 +418,44 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
                     "name": button.title,
                     "url": url
                 ])
+                print("📦 Adding to save: \(button.title) -> \(url)")
             }
         }
         
         UserDefaults.standard.set(favoritesData, forKey: "WebManFavorites")
+        UserDefaults.standard.synchronize() // Force save
         print("💾 Saved \(favoritesData.count) favorites to UserDefaults")
+        print("💾 Data: \(favoritesData)")
     }
     
     private func loadFavoritesFromUserDefaults() -> [(name: String, url: String)] {
+        print("📂 Attempting to load favorites from UserDefaults...")
+        
         guard let favoritesData = UserDefaults.standard.array(forKey: "WebManFavorites") as? [[String: String]] else {
-            print("📂 No saved favorites found, using defaults")
-            return getDefaultFavorites()
+            print("📂 No saved favorites found (key doesn't exist or wrong type), using defaults")
+            // Save defaults immediately so we have something saved
+            let defaults = getDefaultFavorites()
+            let defaultsData = defaults.map { ["name": $0.name, "url": $0.url] }
+            UserDefaults.standard.set(defaultsData, forKey: "WebManFavorites")
+            UserDefaults.standard.synchronize()
+            print("📂 Saved default favorites to UserDefaults for next time")
+            return defaults
         }
+        
+        print("📂 Raw data from UserDefaults: \(favoritesData)")
         
         var favorites: [(name: String, url: String)] = []
         for favoriteDict in favoritesData {
             if let name = favoriteDict["name"],
                let url = favoriteDict["url"] {
                 favorites.append((name: name, url: url))
+                print("📦 Loaded: \(name) -> \(url)")
+            } else {
+                print("❌ Invalid favorite data: \(favoriteDict)")
             }
         }
         
-        print("📂 Loaded \(favorites.count) favorites from UserDefaults")
+        print("📂 Successfully loaded \(favorites.count) favorites from UserDefaults")
         return favorites.isEmpty ? getDefaultFavorites() : favorites
     }
     
@@ -636,6 +645,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         
         debugMenu.addItem(NSMenuItem(title: "Test Database Functionality", action: #selector(testDatabase), keyEquivalent: ""))
         debugMenu.addItem(NSMenuItem(title: "Clean Database Files", action: #selector(cleanDatabase), keyEquivalent: ""))
+        debugMenu.addItem(NSMenuItem.separator())
+        debugMenu.addItem(NSMenuItem(title: "Test Save Favorites", action: #selector(testSaveFavorites), keyEquivalent: ""))
+        debugMenu.addItem(NSMenuItem(title: "Clear Saved Favorites", action: #selector(clearSavedFavorites), keyEquivalent: ""))
 
         
         debugMenuItem.submenu = debugMenu
@@ -718,6 +730,22 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         }
     }
     
+    @objc private func testSaveFavorites() {
+        print("🧪 Testing favorites save...")
+        saveFavoritesToUserDefaults()
+        
+        // Test loading too
+        print("🧪 Testing favorites load...")
+        let loaded = loadFavoritesFromUserDefaults()
+        print("🧪 Loaded \(loaded.count) favorites: \(loaded)")
+    }
+    
+    @objc private func clearSavedFavorites() {
+        print("🗑️ Clearing saved favorites...")
+        UserDefaults.standard.removeObject(forKey: "WebManFavorites")
+        UserDefaults.standard.synchronize()
+        print("🗑️ Cleared! Restart app to see defaults.")
+    }
 
     
     @objc private func testTouchIDAuthentication() {
@@ -878,13 +906,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
             queue: .main
         ) { [weak self] _ in
             self?.dogTagWindow = nil
-        print("🏷️ DogTag Manager window closed")
+        print("🐶🪪 DogTag Manager window closed")
         }
         
         self.dogTagWindow = window
         window.makeKeyAndOrderFront(nil)
         
-        print("🏷️ DogTag Manager window opened")
+        print("🐶🪪 DogTag Manager window opened")
     }
 }
 
@@ -1023,14 +1051,14 @@ class DogTagWindow: NSWindow {
     }
     
     deinit {
-        print("🏷️ DogTagWindow deallocated")
+        print("🐶🪪 DogTagWindow deallocated")
         cleanupSwiftUIContent()
     }
 }
 
 extension DogTagWindow: NSWindowDelegate {
     func windowShouldClose(_ sender: NSWindow) -> Bool {
-        print("🏷️ DogTag Manager window should close")
+        print("🐶🪪 DogTag Manager window should close")
         // Clean up SwiftUI content before closing
         cleanupSwiftUIContent()
         appDelegate?.dogTagWindow = nil
@@ -1038,7 +1066,7 @@ extension DogTagWindow: NSWindowDelegate {
     }
     
     func windowWillClose(_ notification: Notification) {
-        print("🏷️ DogTag Manager window will close")
+        print("🐶🪪 DogTag Manager window will close")
         // Final cleanup
         cleanupSwiftUIContent()
         appDelegate?.dogTagWindow = nil
@@ -1662,6 +1690,13 @@ class FavoritesToolbar: NSView {
                 
                 print("🎯 EMOJI DROP: Calculated insertion index: \(targetIndex)")
                 delegate?.addFavoriteAtIndex(name: displayName, url: urlString, index: targetIndex)
+                
+                // Extra save to ensure persistence after drag
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    if let appDelegate = self.delegate as? AppDelegate {
+                        appDelegate.saveFavoritesToUserDefaults()
+                    }
+                }
                 return true
             }
         }
@@ -1696,6 +1731,13 @@ class FavoritesToolbar: NSView {
         
         if sourceIndex >= 0 && sourceIndex != targetIndex {
             delegate?.reorderFavorite(from: sourceIndex, to: targetIndex)
+            
+            // Extra save to ensure persistence after drag reorder
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                if let appDelegate = self.delegate as? AppDelegate {
+                    appDelegate.saveFavoritesToUserDefaults()
+                }
+            }
             return true
         }
         
@@ -2008,6 +2050,7 @@ extension AppDelegate: FavoritesToolbarDelegate, DraggableFavoriteDelegate, Tras
         }
         
         // Save favorites to UserDefaults
+        print("🌟 About to save favorites after adding new one...")
         saveFavoritesToUserDefaults()
         
         showTemporaryMessage("⭐️ Added to favorites!")
@@ -2045,6 +2088,7 @@ extension AppDelegate: FavoritesToolbarDelegate, DraggableFavoriteDelegate, Tras
         }
         
         // Save favorites to UserDefaults after reordering
+        print("↔️ About to save favorites after reordering...")
         saveFavoritesToUserDefaults()
         
         showTemporaryMessage("↔️ Favorites reordered!")
@@ -2077,6 +2121,10 @@ extension AppDelegate: FavoritesToolbarDelegate, DraggableFavoriteDelegate, Tras
         } completionHandler: {
             stackView.removeArrangedSubview(buttonToDelete)
             buttonToDelete.removeFromSuperview()
+            
+            // Save favorites to UserDefaults after deletion
+            print("🗑️ About to save favorites after deletion...")
+            self.saveFavoritesToUserDefaults()
         }
         
         showTemporaryMessage("🗑️ Bookmark deleted!")
