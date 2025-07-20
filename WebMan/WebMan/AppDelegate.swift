@@ -466,7 +466,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
             ("🧠 d1f.ai", "https://d1f.ai"),
             ("❄️ codefreeze.ai", "https://codefreeze.ai"),
             ("🚀 superbox64.com", "https://superbox64.com"),
-            ("📱 apps.apple.com", "https://apps.apple.com/ba/developer/todd-bruss/id1239131660"),
+            ("📱 apps.apple.com", "https://apps.apple.com/ba/developer/id1239131660"),
             ("🎮 github/SuperBox64", "https://github.com/SuperBox64?tab=repositories"),
             ("❄️ github/CodeFreezeAI", "https://github.com/orgs/CodeFreezeAI/repositories"),
             ("⭐️ WebAuthn.me", "https://webauthn.me"),
