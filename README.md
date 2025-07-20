@@ -286,46 +286,57 @@ graph TD
 ### WebAuthn/FIDO2 Technical Flow
 
 ```mermaid
-graph TB
+graph TD
     A[Website<br/>JS] --> B[WKWebView]
-    B --> C[WebAuthn<br/>Handler]
-    C --> D[ASAuth<br/>Controller]
+    A --> C[WebAuthn<br/>Handler]
     
-    D --> E[Touch ID]
-    D --> F[USB Keys]
+    B --> D[JS Bridge]
+    C --> E[ASAuth<br/>Controller]
     
-    E --> G[Secure<br/>Enclave]
-    F --> H[FIDO2]
+    D --> F[Message<br/>Handler]
+    E --> G[Touch ID]
+    E --> H[USB Keys]
     
-    G --> I[Response]
-    H --> I
-    I --> J[JS Promise]
-    J --> K[Success]
+    F --> I[Swift<br/>Processing]
+    G --> J[Secure<br/>Enclave]
+    H --> K[FIDO2<br/>Protocol]
+    
+    I --> L[Response]
+    J --> L
+    K --> L
+    L --> M[Success]
     
     style C fill:#c0392b,stroke:#fff,stroke-width:3px,color:#fff
-    style D fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff
-    style G fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff
+    style E fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff
+    style J fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff
 ```
 
 ### JavaScript Bridge & Message Flow
 
 ```mermaid
-graph TB
+graph TD
     A[navigator<br/>credentials] --> B[WKWebView<br/>Handler]
-    B --> C[WebAuthn<br/>Swift]
+    A --> C[Challenge<br/>Data]
     
-    C --> D[Challenge<br/>Valid]
-    D --> E[ASAuth<br/>Controller]
-    E --> F[User<br/>Auth]
+    B --> D[Swift<br/>Bridge]
+    C --> E[Validation<br/>Logic]
     
-    F --> G[Crypto<br/>Op]
-    G --> H[Response]
-    H --> I[JS<br/>Promise]
-    I --> J[Success]
+    D --> F[WebAuthn<br/>Handler]
+    E --> G[ASAuth<br/>Setup]
     
-    style C fill:#c0392b,stroke:#fff,stroke-width:3px,color:#fff
-    style E fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff
-    style G fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff
+    F --> H[User<br/>Prompt]
+    G --> I[Crypto<br/>Operation]
+    
+    H --> J[Touch ID/<br/>USB Key]
+    I --> K[Key<br/>Generation]
+    
+    J --> L[Auth<br/>Result]
+    K --> L
+    L --> M[JS Promise<br/>Resolution]
+    
+    style F fill:#c0392b,stroke:#fff,stroke-width:3px,color:#fff
+    style G fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff
+    style I fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff
 ```
 
 ## 🎮 Quick Start
