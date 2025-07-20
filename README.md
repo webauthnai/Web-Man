@@ -3,7 +3,7 @@
 
 [![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org)
 [![macOS](https://img.shields.io/badge/macOS-14.6+-blue.svg)](https://www.apple.com/macos/)
-[![FIDO2](https://img.shields.io/badge/FIDO2-Compliant-green.svg)](https://fidoalliance.org/)
+[![FIDO2](https://img.shields.io/badge/FIDO2-Certified-green.svg)](https://fidoalliance.org/)
 [![WebAuthn](https://img.shields.io/badge/WebAuthn-Level%202-brightgreen.svg)](https://www.w3.org/TR/webauthn-2/)
 [![AI Built](https://img.shields.io/badge/Built%20by-AI-purple.svg)](https://github.com/webauthnai)
 
@@ -45,7 +45,7 @@
 - ⭐ **Drag & Drop Bookmarks** - Intuitive favorites management
 
 ### 🔒 **Passkey Magic**
-- 🏷️ **DogTag Manager** - Visual passkey management
+- 🪪 **DogTag Manager** - Visual passkey management
 - 👆 **Biometric Auth** - Touch ID/Face ID integration
 - 🔐 **Secure Storage** - Keychain & Secure Enclave
 - 🌍 **Universal Support** - Works with any WebAuthn site
@@ -62,7 +62,7 @@
 
 WebMan's **DogTag** system revolutionizes how passkeys work by providing a visual, intuitive interface for managing your digital identities:
 
-#### 🏷️ **What is a DogTag?**
+#### 🪪 **What is a DogTag?**
 Think of a DogTag as your **digital identity card** that contains:
 - **🔐 Cryptographic Key Pair** - Unique public/private keys
 - **🌐 Website Association** - Linked to specific domains  
@@ -183,49 +183,50 @@ class WebAuthnWebView: WKWebView,
 ### WebMan Browser Architecture
 
 ```mermaid
-graph TB
-    A[AppDelegate - Main App] --> B[NSWindow with Unified Toolbar]
-    A --> C[WebView Configuration]
-    A --> D[DogTagWindow Manager]
+graph TD
+    A[AppDelegate<br/>Main App] --> B[NSWindow]
+    A --> C[WebView Config]
+    A --> D[DogTag Window]
     
-    B --> E[WebAuthnWebView - Custom WKWebView]
-    B --> F[NSToolbar with Safari-style Controls]
-    B --> G[FavoritesToolbar Accessory]
+    B --> E[WebAuthnWebView<br/>Custom WKWebView]
+    B --> F[NSToolbar<br/>Safari-style]
+    B --> G[Favorites<br/>Toolbar]
     
-    E --> H[WebAuthnNativeHandler]
-    E --> I[WKWebView Engine]
-    E --> J[JavaScript Message Bridge]
+    E --> H[WebAuthn<br/>NativeHandler]
+    E --> I[WKWebView<br/>Engine]
     
-    F --> K[Back/Forward Buttons]
-    F --> L[DraggableEmojiButton for Links]
-    F --> M[Address Bar Container]
-    F --> N[DogTag Manager Button]
-    F --> O[DraggableTitleLabel]
+    F --> J[Navigation<br/>Buttons]
+    F --> K[Address Bar<br/>Container]
+    F --> L[DogTag<br/>Button]
     
-    G --> P[DraggableFavoriteButton Items]
-    G --> Q[TrashCanView for Deletion]
+    G --> M[Draggable<br/>Favorites]
+    G --> N[TrashCan<br/>View]
     
-    H --> R[ASAuthorizationController Bridge]
-    H --> S[FIDO2 Challenge Processing]
-    H --> T[Cross-Platform + Platform Authenticators]
+    H --> O[ASAuthorization<br/>Controller]
+    H --> P[FIDO2<br/>Processing]
     
-    C --> U[WebAuthnBrowserSetup.createWebViewConfiguration]
-    U --> V[DogTagClient Framework Integration]
+    C --> Q[WebAuthn<br/>BrowserSetup]
+    Q --> R[DogTagClient<br/>Integration]
     
-    D --> W[DogTagManager SwiftUI View]
-    D --> X[NSHostingView Container]
+    D --> S[DogTag<br/>Manager UI]
+    D --> T[NSHosting<br/>View]
+    
+    O --> U[Touch ID/<br/>Face ID]
+    P --> V[Challenge<br/>Processing]
+    S --> W[Passkey<br/>Management]
+    T --> X[SwiftUI<br/>Interface]
     
     style A fill:#ff6b6b,stroke:#333,stroke-width:3px
     style E fill:#4ecdc4,stroke:#333,stroke-width:2px
     style H fill:#f39c12,stroke:#333,stroke-width:2px
     style D fill:#9b59b6,stroke:#333,stroke-width:2px
-    style V fill:#2ecc71,stroke:#333,stroke-width:2px
+    style R fill:#2ecc71,stroke:#333,stroke-width:2px
 ```
 
 ### DogTagClient Framework Architecture
 
 ```mermaid
-graph TB
+graph TD
     A[DogTagClient Framework] --> B[WebAuthn Configuration]
     A --> C[UI Components]
     A --> D[Storage Integration]
@@ -254,6 +255,11 @@ graph TB
     G --> U[Attestation Processing]
     G --> V[Assertion Verification]
     
+    K --> W[Native FIDO2<br/>Implementation]
+    L --> X[Touch ID/<br/>Face ID]
+    Q --> Y[Data<br/>Persistence]
+    R --> Z[Secure<br/>Storage]
+    
     style A fill:#2ecc71,stroke:#333,stroke-width:3px
     style B fill:#3498db,stroke:#333,stroke-width:2px
     style C fill:#e74c3c,stroke:#333,stroke-width:2px
@@ -263,49 +269,113 @@ graph TB
 ### DogTagStorage Framework Architecture
 
 ```mermaid
-graph TB
-    A[DogTagStorage Framework] --> B[Storage Factory]
-    A --> C[Data Models]
-    A --> D[Backend Abstraction]
+graph TD
+    A[DogTagStorage<br/>Framework] 
+    A --> B[Storage<br/>Factory]
+    A --> C[Data<br/>Models]
+    A --> D[Backend<br/>Abstraction]
     
-    B --> E[Automatic Backend Selection]
-    B --> F[Configuration Management]
-    B --> G[Storage Manager Creation]
+    B --> E[Backend<br/>Selection]
+    E --> F[SwiftData<br/>macOS 14+]
+    E --> G[Core Data<br/>macOS 12-13]
     
-    E --> H[SwiftData Backend - macOS 14+]
-    E --> I[Core Data Backend - macOS 12-13]
-    E --> J[Mock Storage for Testing]
+    C --> H[Credential<br/>Data]
+    C --> I[Server<br/>Metadata]
+    C --> J[Virtual<br/>Keys]
     
-    C --> K[CredentialData Model]
-    C --> L[ServerCredentialData Model]
-    C --> M[VirtualKeyData Model]
+    D --> K[Storage<br/>Protocol]
+    D --> L[Thread<br/>Safety]
+    D --> M[Async<br/>API]
     
-    K --> N[WebAuthn Client Credentials]
-    L --> O[Server-Side Metadata]
-    M --> P[Virtual Hardware Keys]
-    
-    D --> Q[StorageManager Protocol]
-    D --> R[Actor-Based Thread Safety]
-    D --> S[Async/Await API]
-    
-    H --> T[SwiftData Schema]
-    H --> U[Model Container]
-    H --> V[Query Operations]
-    
-    I --> W[Core Data Stack]
-    I --> X[NSManagedObjectModel]
-    I --> Y[NSPersistentContainer]
-    
-    Q --> Z[CRUD Operations]
-    Q --> AA[Bulk Operations]
-    Q --> BB[Schema Validation]
+    F --> N[Modern<br/>Schema]
+    G --> O[Legacy<br/>Stack]
+    K --> P[CRUD<br/>Ops]
     
     style A fill:#9b59b6,stroke:#333,stroke-width:3px
-    style B fill:#3498db,stroke:#333,stroke-width:2px
-    style C fill:#e74c3c,stroke:#333,stroke-width:2px
-    style D fill:#f39c12,stroke:#333,stroke-width:2px
-    style H fill:#2ecc71,stroke:#333,stroke-width:2px
-    style I fill:#e67e22,stroke:#333,stroke-width:2px
+    style F fill:#2ecc71,stroke:#333,stroke-width:2px
+    style G fill:#e67e22,stroke:#333,stroke-width:2px
+```
+
+### WebAuthn/FIDO2 Technical Flow
+
+```mermaid
+graph TD
+    A[Website<br/>JavaScript] --> B[navigator.credentials<br/>.create/.get]
+    
+    B --> C[WKWebView<br/>JavaScript Bridge]
+    C --> D[WebAuthnNativeHandler<br/>Swift]
+    
+    D --> E[Challenge<br/>Validation]
+    E --> F[ASAuthorizationController<br/>Setup]
+    
+    F --> G[Platform<br/>Authenticator]
+    F --> H[Cross-Platform<br/>Authenticator]
+    
+    G --> I[Touch ID/<br/>Face ID]
+    G --> J[Secure<br/>Enclave]
+    
+    H --> K[USB<br/>Security Key]
+    H --> L[NFC<br/>Security Key]
+    
+    I --> M[Biometric<br/>Verification]
+    J --> N[Key<br/>Generation]
+    
+    K --> O[FIDO2<br/>Protocol]
+    L --> P[CTAP2<br/>Protocol]
+    
+    M --> Q[Private Key<br/>Signing]
+    N --> Q
+    O --> Q
+    P --> Q
+    
+    Q --> R[Assertion/<br/>Attestation]
+    R --> S[JavaScript<br/>Response]
+    S --> T[Website<br/>Authentication]
+    
+    style A fill:#f39c12,stroke:#333,stroke-width:2px
+    style D fill:#e74c3c,stroke:#333,stroke-width:3px
+    style F fill:#3498db,stroke:#333,stroke-width:2px
+    style J fill:#2ecc71,stroke:#333,stroke-width:2px
+```
+
+### JavaScript Bridge & Message Flow
+
+```mermaid
+graph TD
+    A[WebAuthn<br/>JavaScript API]
+    A --> B[navigator.credentials<br/>.create]
+    A --> C[navigator.credentials<br/>.get]
+    
+    B --> D[Registration<br/>Challenge]
+    C --> E[Authentication<br/>Challenge]
+    
+    D --> F[WKWebView<br/>Message Handler]
+    E --> F
+    
+    F --> G[Swift<br/>WebAuthnNativeHandler]
+    
+    G --> H[Parse<br/>Challenge]
+    H --> I[Validate<br/>Origin]
+    I --> J[Create<br/>Authorization Request]
+    
+    J --> K[ASAuthorizationController<br/>Present]
+    
+    K --> L[User<br/>Interaction]
+    L --> M[Credential<br/>Generation/Selection]
+    
+    M --> N[Cryptographic<br/>Operation]
+    N --> O[Response<br/>Generation]
+    
+    O --> P[Swift<br/>Response Handler]
+    P --> Q[JavaScript<br/>Promise Resolution]
+    
+    Q --> R[WebAuthn<br/>Success Callback]
+    R --> S[Website<br/>Login/Registration]
+    
+    style A fill:#f39c12,stroke:#333,stroke-width:2px
+    style G fill:#e74c3c,stroke:#333,stroke-width:3px
+    style K fill:#3498db,stroke:#333,stroke-width:2px
+    style N fill:#2ecc71,stroke:#333,stroke-width:2px
 ```
 
 ## 🎮 Quick Start
@@ -327,7 +397,7 @@ open WebMan.xcodeproj
 # Build & Run (⌘+R)
 ```
 
-### 🏷️ Try Your First DogTag!
+### 🪪 Try Your First DogTag!
 1. **Launch WebMan** 🚀
 2. **Navigate to** [chat.xcf.ai](https://chat.xcf.ai) 💬
 3. **Register** with your passkey 🔐
@@ -339,8 +409,8 @@ open WebMan.xcodeproj
 Think of **DogTags** as your digital identity cards - but way cooler! 
 
 ```
-🐕 Your Digital Identity
-├── 🏷️ Unique cryptographic signature
+🐶 Your Digital Identity
+├── 🪪 Unique cryptographic signature
 ├── 🔐 Biometrically protected
 ├── 🌐 Works across all WebAuthn sites
 └── 🚀 Instant, secure authentication
@@ -403,7 +473,7 @@ WebMan isn't just a browser - it's a **revolution**:
 
 ## 🤝 Contributing
 
-### 🐕 Join the DogTag Pack!
+### 🐶 Join the DogTag Pack!
 ```bash
 # Fork the repo
 git clone https://github.com/webauthnai/WebMan.git
