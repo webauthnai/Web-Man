@@ -29,7 +29,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
             backing: .buffered,
             defer: false
         )
-        window.title = "WebMan Browser"
+        window.title = "WebWidow Browser"
         window.center()
         
         // Configure window appearance  
@@ -182,7 +182,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         self.addressBarContainer = addressBarContainer
         
         // Create DRAGGABLE title label
-        titleLabel = DraggableTitleLabel(labelWithString: "WebMan - Native WebAuthn Browser")
+        titleLabel = DraggableTitleLabel(labelWithString: "WebWidow - Native WebAuthn Browser")
         titleLabel.font = NSFont.systemFont(ofSize: 12, weight: .medium)
         titleLabel.textColor = NSColor.secondaryLabelColor
         titleLabel.alignment = .right
@@ -421,7 +421,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
             }
         }
         
-        UserDefaults.standard.set(favoritesData, forKey: "WebManFavorites")
+        UserDefaults.standard.set(favoritesData, forKey: "WebWidowFavorites")
         UserDefaults.standard.synchronize() // Force save
         print("💾 Saved \(favoritesData.count) favorites to UserDefaults")
         print("💾 Data: \(favoritesData)")
@@ -430,12 +430,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
     func loadFavoritesFromUserDefaults() -> [(name: String, url: String)] {
         print("📂 Attempting to load favorites from UserDefaults...")
         
-        guard let favoritesData = UserDefaults.standard.array(forKey: "WebManFavorites") as? [[String: String]] else {
+        guard let favoritesData = UserDefaults.standard.array(forKey: "WebWidowFavorites") as? [[String: String]] else {
             print("📂 No saved favorites found (key doesn't exist or wrong type), using defaults")
             // Save defaults immediately so we have something saved
             let defaults = getDefaultFavorites()
             let defaultsData = defaults.map { ["name": $0.name, "url": $0.url] }
-            UserDefaults.standard.set(defaultsData, forKey: "WebManFavorites")
+            UserDefaults.standard.set(defaultsData, forKey: "WebWidowFavorites")
             UserDefaults.standard.synchronize()
             print("📂 Saved default favorites to UserDefaults for next time")
             return defaults
@@ -581,7 +581,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
     
     func updateTitle(with title: String) {
         DispatchQueue.main.async {
-            let displayTitle = title.isEmpty ? "WebMan - Native WebAuthn Browser" : title
+            let displayTitle = title.isEmpty ? "WebWidow - Native WebAuthn Browser" : title
             self.titleLabel.stringValue = displayTitle
             self.window.title = displayTitle
         }
@@ -594,9 +594,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         let appMenuItem = NSMenuItem()
         let appMenu = NSMenu()
         
-        appMenu.addItem(NSMenuItem(title: "About WebMan", action: #selector(showAbout), keyEquivalent: ""))
+        appMenu.addItem(NSMenuItem(title: "About WebWidow", action: #selector(showAbout), keyEquivalent: ""))
         appMenu.addItem(NSMenuItem.separator())
-        appMenu.addItem(NSMenuItem(title: "Quit WebMan", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+        appMenu.addItem(NSMenuItem(title: "Quit WebWidow", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         
         appMenuItem.submenu = appMenu
         mainMenu.addItem(appMenuItem)
@@ -652,7 +652,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
     
     @objc func showAbout() {
         let alert = NSAlert()
-        alert.messageText = "WebMan"
+        alert.messageText = "WebWidow"
         alert.informativeText = """
             WebAuthn Client Application
             Version 1.0
@@ -761,7 +761,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
     
     @objc func clearSavedFavorites() {
         print("🗑️ Clearing saved favorites...")
-        UserDefaults.standard.removeObject(forKey: "WebManFavorites")
+        UserDefaults.standard.removeObject(forKey: "WebWidowFavorites")
         UserDefaults.standard.synchronize()
         print("🗑️ Cleared! Restart app to see defaults.")
     }
@@ -783,7 +783,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, WKUIDelegate {
         }
         
         context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, 
-                              localizedReason: "Authenticate with Touch ID for WebMan test") { success, error in
+                              localizedReason: "Authenticate with Touch ID for WebWidow test") { success, error in
             DispatchQueue.main.async {
                 let alert = NSAlert()
                 if success {

@@ -1,6 +1,6 @@
 //
 //  AppDelegate+URLSessionDownloadDelegate.swift
-//  WebMan
+//  WebWidow
 //
 //  Created by FIDO3.ai / WebAuthn.AI on 7/20/25.
 //
@@ -15,7 +15,7 @@ extension AppDelegate: URLSessionDownloadDelegate {
         DispatchQueue.main.async {
             self.downloadProgressIndicator?.doubleValue = progress
             let percentage = Int(progress * 100)
-            self.window?.title = "WebMan Browser2 - Downloading... \(percentage)%"
+            self.window?.title = "WebWidow Browser - Downloading... \(percentage)%"
         }
     }
     
@@ -37,7 +37,7 @@ extension AppDelegate: URLSessionDownloadDelegate {
             
             DispatchQueue.main.async {
                 self.isDownloading = false
-                self.window?.title = "WebMan Browser2 - Download Complete!"
+                self.window?.title = "WebWidow Browser - Download Complete!"
                 self.hideDownloadProgress()
                 
                 // Show success notification
@@ -55,7 +55,7 @@ extension AppDelegate: URLSessionDownloadDelegate {
                 
                 // Reset title after a delay
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.window?.title = "WebMan Browser2"
+                    self.window?.title = "WebWidow Browser"
                 }
             }
             
@@ -63,7 +63,7 @@ extension AppDelegate: URLSessionDownloadDelegate {
         } catch {
             DispatchQueue.main.async {
                 self.isDownloading = false
-                self.window?.title = "WebMan Browser2 - Download Failed"
+                self.window?.title = "WebWidow Browser - Download Failed"
                 self.hideDownloadProgress()
                 
                 let alert = NSAlert()
@@ -74,7 +74,7 @@ extension AppDelegate: URLSessionDownloadDelegate {
                 
                 // Reset title after a delay
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.window?.title = "WebMan Browser2"
+                    self.window?.title = "WebWidow Browser"
                 }
             }
             print("❌ Download failed: \(error)")
@@ -88,7 +88,7 @@ extension AppDelegate: URLSessionDownloadDelegate {
         if let error = error {
             DispatchQueue.main.async {
                 self.isDownloading = false
-                self.window?.title = "WebMan Browser2 - Download Failed"
+                self.window?.title = "WebWidow Browser - Download Failed"
                 self.hideDownloadProgress()
                 
                 if !error.localizedDescription.contains("cancelled") {
@@ -101,7 +101,7 @@ extension AppDelegate: URLSessionDownloadDelegate {
                 
                 // Reset title after a delay
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.window?.title = "WebMan Browser2"
+                    self.window?.title = "WebWidow Browser"
                 }
             }
             print("❌ Download task failed: \(error)")

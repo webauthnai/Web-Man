@@ -1,6 +1,6 @@
 //
 //  AppDelegate+WKNavigationDelegate.swift
-//  WebMan
+//  WebWidow
 //
 //  Created by FIDO3.ai / WebAuthn.AI on 7/20/25.
 //
@@ -149,7 +149,7 @@ extension AppDelegate: WKNavigationDelegate {
             
             // You can add these to the toolbar if needed
             // For now, we'll just update the window title
-            window?.title = "WebMan Browser2 - Downloading..."
+            window?.title = "WebWidow Browser - Downloading..."
         }
         
         downloadProgressIndicator?.startAnimation(nil)
@@ -159,7 +159,7 @@ extension AppDelegate: WKNavigationDelegate {
         downloadProgressIndicator?.stopAnimation(nil)
         downloadProgressIndicator?.doubleValue = 0.0
         downloadStatusLabel?.stringValue = ""
-        window?.title = "WebMan Browser2"
+        window?.title = "WebWidow Browser"
     }
     
     public func cancelDownload() {

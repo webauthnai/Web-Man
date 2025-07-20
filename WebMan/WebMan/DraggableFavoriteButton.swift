@@ -1,6 +1,6 @@
 //
 //  DraggableFavoriteButton.swift
-//  WebMan
+//  WebWidow
 //
 //  Created by FIDO3.ai / WebAuthn.AI on 7/20/25.
 //

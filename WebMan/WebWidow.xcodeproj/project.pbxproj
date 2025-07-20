@@ -15,7 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		EAEA33AB2DF9BEAF0057E2CB /* WebMan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebMan.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EAEA33AB2DF9BEAF0057E2CB /* WebWidow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebWidow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -53,7 +53,7 @@
 		EAEA33AC2DF9BEAF0057E2CB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EAEA33AB2DF9BEAF0057E2CB /* WebMan.app */,
+				EAEA33AB2DF9BEAF0057E2CB /* WebWidow.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,9 +61,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EAEA33AA2DF9BEAF0057E2CB /* WebMan */ = {
+		EAEA33AA2DF9BEAF0057E2CB /* WebWidow */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EAEA33B82DF9BEAF0057E2CB /* Build configuration list for PBXNativeTarget "WebMan" */;
+			buildConfigurationList = EAEA33B82DF9BEAF0057E2CB /* Build configuration list for PBXNativeTarget "WebWidow" */;
 			buildPhases = (
 				EAEA33A72DF9BEAF0057E2CB /* Sources */,
 				EAEA33A82DF9BEAF0057E2CB /* Frameworks */,
@@ -76,7 +76,7 @@
 			fileSystemSynchronizedGroups = (
 				EAEA33AD2DF9BEAF0057E2CB /* WebMan */,
 			);
-			name = WebMan;
+			name = WebWidow;
 			packageProductDependencies = (
 				EA2A10062DFA2B20007831D5 /* DogTagClient */,
 				EA2A10112DFA31D9007831D5 /* DogTagClient */,
@@ -85,7 +85,7 @@
 				EA7FA4CE2E2C9A18006501F6 /* DogTagClient */,
 			);
 			productName = WebMan;
-			productReference = EAEA33AB2DF9BEAF0057E2CB /* WebMan.app */;
+			productReference = EAEA33AB2DF9BEAF0057E2CB /* WebWidow.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -103,7 +103,7 @@
 					};
 				};
 			};
-			buildConfigurationList = EAEA33A62DF9BEAF0057E2CB /* Build configuration list for PBXProject "WebMan" */;
+			buildConfigurationList = EAEA33A62DF9BEAF0057E2CB /* Build configuration list for PBXProject "WebWidow" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -120,7 +120,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EAEA33AA2DF9BEAF0057E2CB /* WebMan */,
+				EAEA33AA2DF9BEAF0057E2CB /* WebWidow */,
 			);
 		};
 /* End PBXProject section */
@@ -272,11 +272,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = WebMan/WebMan.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 469UCUB275;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
@@ -290,7 +290,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ai.fido3.webauthn.webman;
+				PRODUCT_BUNDLE_IDENTIFIER = ai.fido3.webauthn.webwidow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -304,11 +304,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = WebMan/WebMan.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 469UCUB275;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
@@ -322,7 +322,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.6;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ai.fido3.webauthn.webman;
+				PRODUCT_BUNDLE_IDENTIFIER = ai.fido3.webauthn.webwidow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -333,7 +333,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EAEA33A62DF9BEAF0057E2CB /* Build configuration list for PBXProject "WebMan" */ = {
+		EAEA33A62DF9BEAF0057E2CB /* Build configuration list for PBXProject "WebWidow" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EAEA33B62DF9BEAF0057E2CB /* Debug */,
@@ -342,7 +342,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EAEA33B82DF9BEAF0057E2CB /* Build configuration list for PBXNativeTarget "WebMan" */ = {
+		EAEA33B82DF9BEAF0057E2CB /* Build configuration list for PBXNativeTarget "WebWidow" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EAEA33B92DF9BEAF0057E2CB /* Debug */,

@@ -65,7 +65,7 @@ class WebAuthnNativeHandler: NSObject, WKScriptMessageHandler, ASAuthorizationCo
             }
             
             // Use the actual RPID from the request
-            let rpId = rpInfo["id"] as? String ?? "webman.test"
+            let rpId = rpInfo["id"] as? String ?? "WebWidow.test"
             print("🏢 Using RPID: \(rpId)")
             
             // Extract supported algorithms from the request
@@ -154,7 +154,7 @@ class WebAuthnNativeHandler: NSObject, WKScriptMessageHandler, ASAuthorizationCo
             }
             
             // Use the actual RPID from the request
-            let rpId = publicKey["rpId"] as? String ?? "webman.test"
+            let rpId = publicKey["rpId"] as? String ?? "WebWidow.test"
             print("🏢 Using RPID for authentication: \(rpId)")
             
             // Try cross-platform authenticator first for localhost (less restrictive)
