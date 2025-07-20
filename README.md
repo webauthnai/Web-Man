@@ -287,20 +287,20 @@ graph TD
 
 ```mermaid
 graph LR
-    A[Website<br/>JavaScript] --> B[WKWebView<br/>Bridge]
-    B --> C[WebAuthnNativeHandler]
-    C --> D[ASAuthorizationController]
+    A[Website<br/>JS] --> B[WKWebView]
+    B --> C[WebAuthn<br/>Handler]
+    C --> D[ASAuth<br/>Controller]
     
-    D --> E[Platform Auth<br/>Touch ID/Face ID]
-    D --> F[Cross-Platform<br/>USB/NFC Keys]
+    D --> E[Touch ID]
+    D --> F[USB Keys]
     
-    E --> G[Secure Enclave<br/>Crypto Operations]
-    F --> H[FIDO2/CTAP2<br/>Protocol]
+    E --> G[Secure<br/>Enclave]
+    F --> H[FIDO2]
     
     G --> I[Response]
     H --> I
-    I --> J[JavaScript<br/>Promise]
-    J --> K[Website<br/>Success]
+    I --> J[JS Promise]
+    J --> K[Success]
     
     style C fill:#c0392b,stroke:#fff,stroke-width:3px,color:#fff
     style D fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff
@@ -311,17 +311,17 @@ graph LR
 
 ```mermaid
 graph LR
-    A[navigator.credentials<br/>create/get] --> B[WKWebView<br/>Message Handler]
-    B --> C[WebAuthnNativeHandler<br/>Swift]
+    A[navigator<br/>credentials] --> B[WKWebView<br/>Handler]
+    B --> C[WebAuthn<br/>Swift]
     
-    C --> D[Challenge<br/>Validation]
-    D --> E[ASAuthorizationController]
-    E --> F[User Auth<br/>Touch ID/Keys]
+    C --> D[Challenge<br/>Valid]
+    D --> E[ASAuth<br/>Controller]
+    E --> F[User<br/>Auth]
     
-    F --> G[Crypto<br/>Operation]
-    G --> H[Response<br/>Generation]
-    H --> I[JavaScript<br/>Promise]
-    I --> J[Website<br/>Success]
+    F --> G[Crypto<br/>Op]
+    G --> H[Response]
+    H --> I[JS<br/>Promise]
+    I --> J[Success]
     
     style C fill:#c0392b,stroke:#fff,stroke-width:3px,color:#fff
     style E fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff
