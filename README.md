@@ -3,7 +3,7 @@
 
 [![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org)
 [![macOS](https://img.shields.io/badge/macOS-14.6+-blue.svg)](https://www.apple.com/macos/)
-[![FIDO2](https://img.shields.io/badge/FIDO2-Certified-green.svg)](https://fidoalliance.org/)
+[![FIDO2](https://img.shields.io/badge/FIDO2-Compliant-green.svg)](https://fidoalliance.org/)
 [![WebAuthn](https://img.shields.io/badge/WebAuthn-Level%202-brightgreen.svg)](https://www.w3.org/TR/webauthn-2/)
 [![AI Built](https://img.shields.io/badge/Built%20by-AI-purple.svg)](https://github.com/webauthnai)
 
