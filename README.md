@@ -1,4 +1,4 @@
-# 🕷️🦹🏾‍♂️ WebMan Browser
+# 🕷️WebWidow Browser
 ## *The World's First AI-Built FIDO2/WebAuthn Native Browser*
 
 [![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org)
@@ -9,9 +9,9 @@
 
 <img width="1235" height="940" alt="image" src="https://github.com/user-attachments/assets/da2bec06-0664-4b43-b14e-fb2a60a76924" />
 
-> **🚀 Revolutionary Browser Technology**: WebMan transforms Apple's WKWebView into a full-blown browser with **native passkey support** - completely designed and built by AI following FIDO Alliance Guidelines!
+> **🚀 Revolutionary Browser Technology**: WebWidow transforms Apple's WKWebView into a full-blown browser with **native passkey support** - completely designed and built by AI following FIDO Alliance Guidelines!
 
-## 🌟 What Makes WebMan Special?
+## 🌟 What Makes WebWidow Special?
 
 ### 🤖 **100% AI-Engineered**
 - **Browser**: Entirely crafted by AI using Swift and modern macOS APIs
@@ -56,11 +56,11 @@
 - 🧪 **[webauthn.io](https://webauthn.io)** - Official FIDO testing
 - ⭐ **[webauthn.me](https://webauthn.me)** - Community test suite
 
-## 🔐 How Passkeys Work in WebMan
+## 🔐 How Passkeys Work in WebWidow
 
 ### The DogTag System Explained
 
-WebMan's **DogTag** system revolutionizes how passkeys work by providing a visual, intuitive interface for managing your digital identities:
+WebWidow's **DogTag** system revolutionizes how passkeys work by providing a visual, intuitive interface for managing your digital identities:
 
 #### 🪪 **What is a DogTag?**
 Think of a DogTag as your **digital identity card** that contains:
@@ -75,7 +75,7 @@ Think of a DogTag as your **digital identity card** that contains:
 ```mermaid
 sequenceDiagram
     participant U as User
-    participant W as WebMan Browser
+    participant W as WebWidow Browser
     participant S as Website (chat.webauthn.ai)
     participant D as DogTagClient
     participant A as ASAuthorizationController
@@ -101,7 +101,7 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant U as User
-    participant W as WebMan Browser
+    participant W as WebWidow Browser
     participant S as Website (chat.webauthn.ai)
     participant D as DogTagClient
     participant A as ASAuthorizationController
@@ -122,7 +122,7 @@ sequenceDiagram
     S->>U: Login successful! ✨
 ```
 
-#### 🏗️ **WebMan's Technical Implementation**
+#### 🏗️ **WebWidow's Technical Implementation**
 
 **1. Custom WebView Integration:**
 ```swift
@@ -169,7 +169,7 @@ class WebAuthnWebView: WKWebView,
 - **User verification** required for sensitive operations
 - **Phishing resistant** - keys tied to exact domain
 
-#### 🌟 **Why WebMan's DogTag System is Revolutionary**
+#### 🌟 **Why WebWidow's DogTag System is Revolutionary**
 
 1. **🎨 Visual Interface** - See and manage your passkeys like physical items
 2. **🤖 AI-Built** - Entire system designed and implemented by AI
@@ -180,7 +180,7 @@ class WebAuthnWebView: WKWebView,
 
 ## 🏗️ Architecture
 
-### WebMan Browser Architecture
+### WebWidow Browser Architecture
 
 ```mermaid
 graph TD
@@ -283,7 +283,7 @@ graph TD
     style G fill:#d35400,stroke:#fff,stroke-width:2px,color:#fff
 ```
 
-### How WebAuthn Works in WebMan
+### How WebAuthn Works in WebWidow
 
 ```mermaid
 graph TD
@@ -315,7 +315,7 @@ graph TD
     style H fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff
 ```
 
-### How FIDO2/CTAP/CBOR Works in WebMan
+### How FIDO2/CTAP/CBOR Works in WebWidow
 
 ```mermaid
 graph TD
@@ -359,16 +359,16 @@ graph TD
 ```bash
 # Clone the AI-powered browser
 git clone https://github.com/webauthnai/Web-Man.git
-cd WebMan/WebMan-webinspector
+cd WebWidow/WebWidow-webinspector
 
 # Open in Xcode
-open WebMan.xcodeproj
+open WebWidow.xcodeproj
 
 # Build & Run (⌘+R)
 ```
 
 ### 🪪 Try Your First DogTag!
-1. **Launch WebMan** 🚀
+1. **Launch WebWidow** 🚀
 2. **Navigate to** [chat.webauthn.ai](https://chat.webauthn.ai) 💬
 3. **Register** with your passkey 🔐
 4. **Watch the magic** happen! ✨
@@ -397,7 +397,7 @@ Think of **DogTags** as your digital identity cards - but way cooler!
 
 ### 📐 Technical Compliance
 ```swift
-// Real WebMan code - AI generated!
+// Real WebWidow code - AI generated!
 let platformProvider = ASAuthorizationPlatformPublicKeyCredentialProvider(
     relyingPartyIdentifier: rpId
 )
@@ -418,7 +418,7 @@ platformRequest.userVerificationPreference = .preferred
 ## 🌍 Real-World Testing
 
 ### 🧪 Live Test Sites
-Test WebMan's passkey powers on these real WebAuthn implementations:
+Test WebWidow's passkey powers on these real WebAuthn implementations:
 
 | Site | Type | AI-Built? | Features |
 |------|------|-----------|----------|
@@ -429,7 +429,7 @@ Test WebMan's passkey powers on these real WebAuthn implementations:
 ## 🏆 Why This Matters
 
 ### 🌅 **The Dawn of Passwordless**
-WebMan isn't just a browser - it's a **revolution**:
+WebWidow isn't just a browser - it's a **revolution**:
 - 🤖 **AI-First Development** - The future of software engineering
 - 🔐 **Security Reimagined** - Passwords are officially extinct
 - 🚀 **Native Performance** - Swift + macOS = Lightning fast
@@ -495,6 +495,6 @@ Copyright (c) 2025 WebAuthn AI
   <h3>🐶🪪 Welcome to the Future of Browsing! 🐶🪪</h3>
   <p><strong>Built by AI • Secured by FIDO2 • Powered by DogTags</strong></p>
   
-  [![Download](https://img.shields.io/badge/Download-WebMan-blue.svg?style=for-the-badge)](https://github.com/webauthnai/Web-Man/releases)
+  [![Download](https://img.shields.io/badge/Download-WebWidow-blue.svg?style=for-the-badge)](https://github.com/webauthnai/Web-Man/releases)
   [![Try Demo](https://img.shields.io/badge/Try-chat.webauthn.ai-green.svg?style=for-the-badge)](https://chat.webauthn.ai)
 </div> 
