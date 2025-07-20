@@ -248,9 +248,9 @@ graph TD
     K --> O[Passkey<br/>Display]
     L --> P[Secure<br/>Storage]
     
-    style A fill:#2ecc71,stroke:#333,stroke-width:3px
-    style B fill:#3498db,stroke:#333,stroke-width:2px
-    style I fill:#f39c12,stroke:#333,stroke-width:2px
+    style A fill:#27ae60,stroke:#fff,stroke-width:3px,color:#fff
+    style B fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff
+    style I fill:#d68910,stroke:#fff,stroke-width:2px,color:#fff
 ```
 
 ### DogTagStorage Framework Architecture
@@ -278,9 +278,9 @@ graph TD
     G --> O[Legacy<br/>Stack]
     K --> P[CRUD<br/>Ops]
     
-    style A fill:#9b59b6,stroke:#333,stroke-width:3px
-    style F fill:#2ecc71,stroke:#333,stroke-width:2px
-    style G fill:#e67e22,stroke:#333,stroke-width:2px
+    style A fill:#7d3c98,stroke:#fff,stroke-width:3px,color:#fff
+    style F fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff
+    style G fill:#d35400,stroke:#fff,stroke-width:2px,color:#fff
 ```
 
 ### WebAuthn/FIDO2 Technical Flow
@@ -302,9 +302,9 @@ graph LR
     I --> J[JavaScript<br/>Promise]
     J --> K[Website<br/>Success]
     
-    style C fill:#e74c3c,stroke:#333,stroke-width:3px
-    style D fill:#3498db,stroke:#333,stroke-width:2px
-    style G fill:#2ecc71,stroke:#333,stroke-width:2px
+    style C fill:#c0392b,stroke:#fff,stroke-width:3px,color:#fff
+    style D fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff
+    style G fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff
 ```
 
 ### JavaScript Bridge & Message Flow
@@ -323,9 +323,9 @@ graph LR
     H --> I[JavaScript<br/>Promise]
     I --> J[Website<br/>Success]
     
-    style C fill:#e74c3c,stroke:#333,stroke-width:3px
-    style E fill:#3498db,stroke:#333,stroke-width:2px
-    style G fill:#2ecc71,stroke:#333,stroke-width:2px
+    style C fill:#c0392b,stroke:#fff,stroke-width:3px,color:#fff
+    style E fill:#2980b9,stroke:#fff,stroke-width:2px,color:#fff
+    style G fill:#27ae60,stroke:#fff,stroke-width:2px,color:#fff
 ```
 
 ## 🎮 Quick Start
